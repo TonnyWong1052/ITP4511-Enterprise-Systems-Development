@@ -1,5 +1,5 @@
 <!-- <%-- 
-    Document   : venueDetail
+    Document   : BookingManagement
     Created on : Apr 21, 2023, 3:34:34 PM
     Author     : user
 --%>
@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Venue Detail</title>
+    <title>Booking Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -37,10 +37,15 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <script>
-        var loadFile = function(event) {
-            var image = document.getElementById('image');
-            image.src = URL.createObjectURL(event.target.files[0]);
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            var textBox = document.getElementById('search');
+            
+            textBox.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.keyCode === 13) {
+                    window.location.href = 'test.html';
+                }
+            });
+        });
     </script>
 </head>
 
@@ -62,8 +67,8 @@
                     <h3 class="text-primary">EPL Backend</h3>
                 </a>
                 <div class="navbar-nav w-100">
-                    <a href="venueManagement.html" class="nav-item nav-link active"><i class="bi bi-shop-window me-2"></i>Venue</a>
-                    <a href="bookingManagement.html" class="nav-item nav-link"><i class="bi bi-bag me-2"></i>Booking</a>
+                    <a href="venueManagement.html" class="nav-item nav-link"><i class="bi bi-shop-window me-2"></i>Venue</a>
+                    <a href="bookingManagement.html" class="nav-item nav-link active"><i class="bi bi-bag me-2"></i>Booking</a>
                     <a href="userManagement.html" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>User</a>
                     <a href="analysis.html" class="nav-item nav-link"><i class="bi bi-graph-up me-2"></i>Analysis</a>
                 </div>
@@ -82,12 +87,11 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/Sample_User_Icon.png" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <span class="d-none d-lg-inline-flex">Tonny Wong</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
@@ -105,77 +109,71 @@
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4" style="font-size: 40px;">Venue Detail</h6>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="venueManagement.html">Venue List</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page">Venue Detail</li>
-                                </ol>
-                            </nav>
-                            <img src="./img/no-available.jpg" alt="" id="image" style="margin-left: auto; margin-right: auto;display: block;max-height: 250px;cursor: pointer;" onclick="document.getElementById('file').click();">
-                            <input type="file" id="file" name="file" onchange="loadFile(event)" accept="image/*" style="display: none;">
-                            <!-- <input type="button" value="Browse..." onclick="document.getElementById('file').click();" style="margin-left: auto; margin-right: auto;display: block;" /> -->
-                            <!-- <input class="form-control border-0" type="search" placeholder="Search" style="width:300px;display: inline;">
-                            <i class="bi bi-search fa-1x" style="margin-left: 10px;" ></i> -->
+                            <h6 class="mb-4" style="font-size: 30px;">Booking Management</h6>
+                     
+                            <input class="form-control border-0" id="search" type="search" placeholder="Search" style="width:300px;display: inline;">
+                            <!-- <i class="bi bi-search fa-1x" style="margin-left: 10px;" ></i> -->
+                            <span style="margin-left: 20px;">Filter: </span>
+                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  Pending
+                                </label>
+                            </div>
+
+                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Confirmed
+                                </label>
+                            </div>
+
+                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Declined
+                                </label>
+                            </div>
                             
-                            <p style="font-size: 25px;">Information</p>
+                            <button type="button" class="btn btn-outline-info m-2" style="float: right;visibility: hidden;" >Add</button>
 
-                            <form class="row g-3">
-                                <div class="col-md-6">
-                                  <label for="inputEmail4" class="form-label">Venue ID</label>
-                                  <input type="email" class="form-control" id="inputEmail4">
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="inputPassword4" class="form-label">Name</label>
-                                  <input type="password" class="form-control" id="inputPassword4">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Capacity</label>
-                                    <input type="number" id="typeNumber" class="form-control" />
-                                </div>
-                                  
-                                <div class="col-md-6">
-                                <label for="inputPassword4" class="form-label">Location</label>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="Tuen Mun" selected>Tuen Mun</option>
-                                    <option value="Sha Tin">Sha Tin</option>
-                                    <option value="Tsing Yi">Tsing Yi</option>
-                                    <option value="Lee Wai Lee">Lee Wai Lee</option>
-                                    <option value="Chai Wan">Chai Wan</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Venue manager ID</label>
-                                    <input type="email" class="form-control" id="inputEmail4">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Venue manager name</label>
-                                    <input type="email" class="form-control" id="inputEmail4">
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Booking fee</label>
-                                    <input type="number" id="typeNumber" class="form-control" />
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Active status</label>
-                                    <input class="form-control" type="text" placeholder="Empty" aria-label="Disabled input example" disabled>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary" style="max-width: 100px;">Submit</button>
-                                </div>
-                                
-                            </form>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">User name</th>
+                                        <th scope="col">Venue item</th>
+                                        <th scope="col">Create at</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Tonny Chan</td>
+                                        <td>2</td>
+                                        <td>3-4-2023</td>
+                                        <td><span class="badge bg-secondary">Pending</span></td>
+                                        <td><a href="BookingDetail.html"><button type="button" class="btn btn-primary m-2">Detail</button></a></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mark@email.com</td>
+                                        <td>jhon@email.com</td>
+                                        <td><button type="button" class="btn btn-primary m-2">Detail</button></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>jacob@email.com</td>
+                                        <td>jhon@email.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
