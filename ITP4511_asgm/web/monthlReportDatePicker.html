@@ -1,5 +1,5 @@
 <!-- <%-- 
-    Document   : BookginDetail
+    Document   : BookingManagement
     Created on : Apr 21, 2023, 3:34:34 PM
     Author     : user
 --%>
@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Venue Detail</title>
+    <title>Booking Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -36,8 +36,6 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"> -->
 </head>
 
 <body>
@@ -61,11 +59,11 @@
                 <div class="navbar-nav w-100">
                     <a href="venueManagement.html" class="nav-item nav-link"><i
                             class="bi bi-shop-window me-2"></i>Venue</a>
-                    <a href="bookingManagement.html" class="nav-item nav-link active"><i
-                            class="bi bi-bag me-2"></i>Booking</a>
+                    <a href="bookingManagement.html" class="nav-item nav-link"><i class="bi bi-bag me-2"></i>Booking</a>
                     <a href="userManagement.html" class="nav-item nav-link"><i
                             class="bi bi-people-fill me-2"></i>User</a>
-                    <a href="analysis.html" class="nav-item nav-link"><i class="bi bi-graph-up me-2"></i>Analysis</a>
+                    <a href="analysis.html" class="nav-item nav-link active"><i
+                            class="bi bi-graph-up me-2"></i>Analysis</a>
                 </div>
             </nav>
         </div>
@@ -82,13 +80,12 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/Sample_User_Icon.png" alt=""
                                 style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <span class="d-none d-lg-inline-flex">Tonny Wong</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
@@ -105,98 +102,58 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-12">
+                        <h6 style="font-size: 30px;">Select Date - Monthly Report</h6>
+                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="analysis.html">Data Analysis</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Date Picker</li>
+                        </ol>
+                    </nav>
+                    <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4" style="font-size: 40px;">
-                                <p style="display: inline-block;">Booking Detail</p>
-                                <button type="button" class="btn btn-outline-warning m-2"
-                                    style="float: right;width: 85px;">Decline</button>
-                                <button type="button" class="btn btn-outline-success m-2"
-                                    style="float: right;width: 85px;">Approve</button>
-                            </h6>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="bookingManagement.html">Booking List</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Venue Detail</li>
-                                </ol>
-                            </nav>
-
                             <form class="row g-3">
-                                <h5>
-                                    User Information
-                                    <button type="button" class="btn btn-outline-primary m-1">Read More</button>
-                                </h5>
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">User ID</label>
-                                    <input type="text" class="form-control" id="inputEmail4" disabled>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">User Name</label>
-                                    <input type="text" class="form-control" id="inputEmail4" disabled>
-                                </div> <br>
-
-                                <hr style="border-top: 2px solid black; width: 100%;">
-
-                                <h5>
-                                    Venue #1
-                                    <button type="button" class="btn btn-outline-info m-1">Detail</button>
-                                </h5>
-                            
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Venue ID</label>
-                                    <input type="email" class="form-control" id="inputEmail4" disabled>
-                                </div>
-
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="inputEmail4" class="form-label">Venue Name</label>
-                                    <input type="email" class="form-control" id="inputEmail4" disabled>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="Banquet Hall" selected>Elegant Place</option>
+                                        <option value="Conference Room">Modern Meeting Room</option>
+                                        <option value="Party Room">Cozy Corner</option>
+                                    </select>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Create Date</label>
-                                    <input type="Date" class="form-control" value="23:05" />
+                                    <label for="inputEmail4" class="form-label">Year</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="Banquet Hall" selected>2023</option>
+                                        <option value="Conference Room">2022</option>
+                                        <option value="Party Room">2021</option>
+                                        <option value="Art Studio">2020</option>
+                                    </select>
                                 </div>
-
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Start Time</label>
-                                    <input type="time" class="form-control" value="23:05" />
+                                    <label for="inputPassword4" class="form-label">Month</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="7">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="1">11</option>
+                                        <option value="12">12</option>
+                                    </select>
                                 </div>
-
                                 <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">End Time</label>
-                                    <input type="time" class="form-control" value="23:05" />
+                                    <a href="analysisReport.html">
+                                        <button type="button" class="btn btn-primary" style="max-width: 100px;">Submit</button>
+                                    </a>
+                                    <!-- <button type="submit" class="btn btn-primary" style="max-width: 100px;">Submit</button> -->
                                 </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Booking Status</label>
-                                    <input type="text" class="form-control" id="inputEmail4" value="Pending" disabled>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Payment Status</label>
-                                    <input type="text" class="form-control" id="inputEmail4" value="Unpaid" disabled>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Amount</label>
-                                    <input type="number" id="typeNumber" class="form-control" />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Member Remark</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Staff Remark</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary"
-                                        style="max-width: 100px;">Edit</button>
-                                </div>
-
                             </form>
                         </div>
                     </div>
