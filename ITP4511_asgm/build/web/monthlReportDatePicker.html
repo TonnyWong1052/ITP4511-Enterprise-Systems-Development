@@ -1,5 +1,5 @@
 <!-- <%-- 
-    Document   : venusManagement
+    Document   : BookingManagement
     Created on : Apr 21, 2023, 3:34:34 PM
     Author     : user
 --%>
@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Venue Management</title>
+    <title>Booking Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -36,23 +36,13 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var textBox = document.getElementById('search');
-            
-            textBox.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter' || event.keyCode === 13) {
-                    window.location.href = 'test.html';
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -67,10 +57,13 @@
                     <h3 class="text-primary">EPL Backend</h3>
                 </a>
                 <div class="navbar-nav w-100">
-                    <a href="venueManagement.html" class="nav-item nav-link active"><i class="bi bi-shop-window me-2"></i>Venue</a>
+                    <a href="venueManagement.html" class="nav-item nav-link"><i
+                            class="bi bi-shop-window me-2"></i>Venue</a>
                     <a href="bookingManagement.html" class="nav-item nav-link"><i class="bi bi-bag me-2"></i>Booking</a>
-                    <a href="userManagement.html" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>User</a>
-                    <a href="analysis.html" class="nav-item nav-link"><i class="bi bi-graph-up me-2"></i>Analysis</a>
+                    <a href="userManagement.html" class="nav-item nav-link"><i
+                            class="bi bi-people-fill me-2"></i>User</a>
+                    <a href="analysis.html" class="nav-item nav-link active"><i
+                            class="bi bi-graph-up me-2"></i>Analysis</a>
                 </div>
             </nav>
         </div>
@@ -90,7 +83,8 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="img/Sample_User_Icon.png" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle me-lg-2" src="img/Sample_User_Icon.png" alt=""
+                                style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">Tonny Wong</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
@@ -108,51 +102,59 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-12">
+                        <h6 style="font-size: 30px;">Select Date - Monthly Report</h6>
+                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="analysis.html">Data Analysis</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Date Picker</li>
+                        </ol>
+                    </nav>
+                    <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4" style="font-size: 30px;">
-                                Venue Management
-                                <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Add Venue</button>
-                            </h6>
-                     
-                            <input class="form-control border-0" id="search" type="search" placeholder="Search" style="width:300px;display: inline;">
+                            <form class="row g-3">
+                                <div class="col-md-12">
+                                    <label for="inputEmail4" class="form-label">Venue Name</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="Banquet Hall" selected>Elegant Place</option>
+                                        <option value="Conference Room">Modern Meeting Room</option>
+                                        <option value="Party Room">Cozy Corner</option>
+                                    </select>
+                                </div>
 
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Capacity</th>
-                                        <th scope="col">Location</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td><a href="venueDetail.html"><button type="button" class="btn btn-sm btn-primary">Detail</button></a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td><button type="button" class="btn btn-sm btn-primary">Detail</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                        <td>jhon@email.com</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <div class="col-md-6">
+                                    <label for="inputEmail4" class="form-label">Year</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="Banquet Hall" selected>2023</option>
+                                        <option value="Conference Room">2022</option>
+                                        <option value="Party Room">2021</option>
+                                        <option value="Art Studio">2020</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputPassword4" class="form-label">Month</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="7">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="1">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="analysisReport.html">
+                                        <button type="button" class="btn btn-primary" style="max-width: 100px;">Submit</button>
+                                    </a>
+                                    <!-- <button type="submit" class="btn btn-primary" style="max-width: 100px;">Submit</button> -->
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -165,7 +167,7 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; Event Point Limited, All Right Reserved. 
+                            &copy; Event Point Limited, All Right Reserved.
                         </div>
                     </div>
                 </div>

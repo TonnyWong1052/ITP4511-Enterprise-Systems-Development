@@ -1,5 +1,5 @@
 <!-- <%-- 
-    Document   : BookingManagement
+    Document   : venusManagement
     Created on : Apr 21, 2023, 3:34:34 PM
     Author     : user
 --%>
@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Booking Management</title>
+    <title>User Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -68,8 +68,8 @@
                 </a>
                 <div class="navbar-nav w-100">
                     <a href="venueManagement.html" class="nav-item nav-link"><i class="bi bi-shop-window me-2"></i>Venue</a>
-                    <a href="bookingManagement.html" class="nav-item nav-link active"><i class="bi bi-bag me-2"></i>Booking</a>
-                    <a href="userManagement.html" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>User</a>
+                    <a href="bookingManagement.html" class="nav-item nav-link"><i class="bi bi-bag me-2"></i>Booking</a>
+                    <a href="userManagement.html" class="nav-item nav-link active"><i class="bi bi-people-fill me-2"></i>User</a>
                     <a href="analysis.html" class="nav-item nav-link"><i class="bi bi-graph-up me-2"></i>Analysis</a>
                 </div>
             </nav>
@@ -110,75 +110,77 @@
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4" style="font-size: 30px;">
-                                <p style="display: inline-block;">Booking Management</p>
-                                <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Export CSV</button>
+                                User Management
+                                <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Add User</button>
                             </h6>
-                     
+                            
                             <input class="form-control border-0" id="search" type="search" placeholder="Search" style="width:300px;display: inline;">
-                            <!-- <i class="bi bi-search fa-1x" style="margin-left: 10px;" ></i> -->
+
                             <span style="margin-left: 20px;">Filter: </span>
                             <div class="form-check" style="display: inline-block;margin-right: 10px;">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
                                 <label class="form-check-label" for="flexCheckDefault">
-                                  Pending
+                                  Member
                                 </label>
                             </div>
 
                             <div class="form-check" style="display: inline-block;margin-right: 10px;">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                  Waiting for Payment
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                <label class="form-check-label" for="flexCheckDefault" >
+                                  Staff
                                 </label>
                             </div>
 
                             <div class="form-check" style="display: inline-block;margin-right: 10px;">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    Confirmed
+                                    Senior Management
                                 </label>
                             </div>
 
-                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Declined
-                                </label>
-                            </div>
-                        
                             <table class="table table-striped">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-dark">
                                         <th scope="col">ID</th>
-                                        <th scope="col">User name</th>
-                                        <th scope="col">Venue item</th>
-                                        <th scope="col">Create at</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Role</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Tonny Chan</td>
-                                        <td>2</td>
-                                        <td>3-4-2023</td>
-                                        <td><span class="badge bg-secondary">Pending</span></td>
-                                        <td><a href="BookingDetail.html"><button type="button" class="btn btn-sm btn-primary">Detail</button></a></td>
+                                        <td>1</td>
+                                        <td>John Doe</td>
+                                        <td>12345678</td>
+                                        <td>john.doe@example.com</td>
+                                        <td>Member</td>
+                                        <td><a class="btn btn-sm btn-primary" href="userDetail.html">Detail</a></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td><button type="button" class="btn btn-sm btn-primary">Detail</button></td>
+                                        <td>01 Jan 2045</td>
+                                        <td>INV-0123</td>
+                                        <td>Jhon Doe</td>
+                                        <td>$123</td>
+                                        <td>Paid</td>
+                                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                        <td>jhon@email.com</td>
+                                        <td>01 Jan 2045</td>
+                                        <td>INV-0123</td>
+                                        <td>Jhon Doe</td>
+                                        <td>$123</td>
+                                        <td>Paid</td>
+                                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>01 Jan 2045</td>
+                                        <td>INV-0123</td>
+                                        <td>Jhon Doe</td>
+                                        <td>$123</td>
+                                        <td>Paid</td>
+                                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                     </tr>
                                 </tbody>
                             </table>
