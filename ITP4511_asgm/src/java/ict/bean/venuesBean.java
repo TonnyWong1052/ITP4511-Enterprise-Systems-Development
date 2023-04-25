@@ -17,8 +17,7 @@ public class venuesBean {
     private String location;
     private String description;
     private String personInCharge;
-    private String bookingFee;
-    private String hourlyRate;
+    private int hourlyRate;
     private String isActive;
     private byte[] image;
 
@@ -78,23 +77,15 @@ public class venuesBean {
         this.personInCharge = personInCharge;
     }
 
-    public String getBookingFee() {
-        return bookingFee;
-    }
-
-    public void setBookingFee(String bookingFee) {
-        this.bookingFee = bookingFee;
-    }
-
-    public String getHourlyRate() {
+    public int getHourlyRate() {
         return hourlyRate;
     }
 
-    public void setHourlyRate(String hourlyRate) {
+    public void setHourlyRate(int hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
 
-    public String isActive() {
+    public String getIsActive() {
         return isActive;
     }
 
