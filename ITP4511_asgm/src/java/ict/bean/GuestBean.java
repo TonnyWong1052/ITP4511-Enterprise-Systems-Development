@@ -10,23 +10,25 @@ package ict.bean;
  * @author qwer1
  */
 public class GuestBean {
+
     private int id;
     private String name;
     private String email;
     private String bookingId;
-
-    // Default constructor
-    public GuestBean() {
-        
-    }
-
-    // Constructor with all fields
-    public GuestBean(int id, String name, String email, String bookingId) {
+    
+    public GuestBean(int id, String name, String email, String booking_id){
         this.id = id;
         this.name = name;
         this.email = email;
-        this.bookingId = bookingId;
+        this.bookingId = booking_id;
     }
+
+    // Default constructor
+    public GuestBean() {
+
+    }
+
+    // Constructor with all fields
 
     // Getters and setters for all fields
     public int getId() {
@@ -59,5 +61,33 @@ public class GuestBean {
 
     public void setBookingId(String bookingId) {
         this.bookingId = bookingId;
+    }
+
+    public void setid(int id) {
+        this.id = id;
+    }
+
+    public void setemail(String email) {
+        this.email = email;
+    }
+
+    public void setbooking_id(String booking_id) {
+        this.bookingId = booking_id;
+    }
+
+    public int getid() {
+        return id;
+    }
+
+    public String getemail() {
+        return email;
+    }
+
+    public String getbooking_id() {
+        return bookingId;
+    }
+
+    public String toString() {
+        return "GuestBean{id=" + id + ",name=" + name + ",email=" + email + ",booking_id=" + bookingId + "}";
     }
 }

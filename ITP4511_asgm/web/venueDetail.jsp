@@ -61,7 +61,7 @@
             //            System.out.println("message: " + request.getAttribute("message").toString());
             window.onload = function () {
             <%
-                        out.println("document.getElementById(\"modal-message\").innerHTML = \"" + message + "\";");
+                out.println("document.getElementById(\"modal-message\").innerHTML = \"" + message + "\";");
             %>
                 document.getElementById("model-btn").click();
             };
@@ -117,9 +117,15 @@
                         <div class="col-sm-12 col-xl-12">
                             <div class="bg-light rounded h-100 p-4">
                                 <h6 class="mb-4" style="font-size: 40px;display: inline-block ">Venue Detail</h6>
+                                <%
+                                    if (request.getParameter("action") != null && request.getParameter("action").equals("edit")) {
+                                %>
                                 <form action="handleVenueDetail?action=delete&id=<%= venue.getId()%>" method="POST"  >
                                     <button type="submit" class="btn btn-outline-danger m-2" style="float: right;"  >Delete Venue</button>
                                 </form>
+                                <%
+                                    }
+                                %>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="handleVenueManagement">Venue List</a></li>
@@ -128,7 +134,7 @@
                                 </nav>
                                 <!--enctype="multipart/form-data"-->
                                 <!--<form class="row g-3" action="handleVenueDetail?id=<%= venue.getId()%>" method="POST"  >-->
-                                <form class="row g-3" action="handleVenueDetail?action=edit&id=<%= venue.getId()%>" method="post" enctype="multipart/form-data"  >
+                                <form class="row g-3" action="handleVenueDetail?action=edit&id=<%= venue.getId()%>" method="post"  >
                                     <input type="hidden" name="processData" value="<%= request.getParameter("action")%>" />
                                     <%
                                         String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
@@ -138,12 +144,20 @@
                                         } else {
                                             imageSrc = "./img/no-available.jpg";
                                         }
-                                        System.out.println(imageSrc);
-                                        out.println(venue.getImage());
                                     %>
                                     <ict:displayImage imageBytes="${requestScope.imageBytes}" />
 
+                                    <%
+                                        if (request.getParameter("action") != null && request.getParameter("action").equals("edit")) {
+                                    %>
+                                    <img src="img/partyRoom.jpg" alt="" name="picture" id="picture" style="margin-left: auto; margin-right: auto;display: block;max-height: 250px;max-width: 400px; cursor: pointer;" onclick="document.getElementById('file').click();">
+                                    <%
+                                        }else {  
+                                    %>
                                     <img src="<%= imageSrc%>" alt="" name="picture" id="picture" style="margin-left: auto; margin-right: auto;display: block;max-height: 250px;max-width: 400px; cursor: pointer;" onclick="document.getElementById('file').click();">
+                                    <%
+                                        }
+                                    %>
                                     <input type="file" id="file" name="image" onchange="loadFile(event)" accept="image/*" style="display: none;">
                                     <!-- <input type="button" value="Browse..." onclick="document.getElementById('file').click();" style="margin-left: auto; margin-right: auto;display: block;" /> -->
                                     <!-- <input class="form-control border-0" type="search" placeholder="Search" style="width:300px;display: inline;">
@@ -176,42 +190,42 @@
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label">Type</label>
                                         <select class="form-select" aria-label="Default select example" name="type" >
-                                            <option value="Banquet Hall" <% if (venue.getType().equals("Banquet Hall")) {
-                                                out.println("selected");
-                                            } %>  >Banquet Hall</option>
-                                            <option value="Conference Room"  <% if (venue.getType().equals("Conference Room")) {
-                                                out.println("selected");
-                                            } %> >Conference Room</option>
-                                            <option value="Party Room" <% if (venue.getType().equals("Party Room")) {
-                                                out.println("selected");
-                                            } %> >Party Room</option>
-                                            <option value="Art Studio" <% if (venue.getType().equals("Art Studio")) {
-                                                out.println("selected");
-                                            } %> >Art Studio</option>
-                                            <option value="Co-working Space" <% if (venue.getType().equals("Co-working Space")) {
-                                                out.println("selected");
-                                            } %> >Co-working Space</option>
+                                                <option value="Banquet Hall" <% if (venue.getType().equals("Banquet Hall")) {
+                                                        out.println("selected");
+                                                    } %>  >Banquet Hall</option>
+                                                    <option value="Conference Room"  <% if (venue.getType().equals("Conference Room")) {
+                                                            out.println("selected");
+                                                        } %> >Conference Room</option>
+                                                    <option value="Party Room" <% if (venue.getType().equals("Party Room")) {
+                                                            out.println("selected");
+                                                        } %> >Party Room</option>
+                                                    <option value="Art Studio" <% if (venue.getType().equals("Art Studio")) {
+                                                            out.println("selected");
+                                                        } %> >Art Studio</option>
+                                                    <option value="Co-working Space" <% if (venue.getType().equals("Co-working Space")) {
+                                                            out.println("selected");
+                                                        } %> >Co-working Space</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-6">
                                         <label for="inputPassword4" class="form-label">Location</label>
                                         <select class="form-select" aria-label="Default select example" name="location" name="location"  >
-                                            <option value="Tuen Mun" <% if (venue.getLocation().equals("Tuen Mun")) {
-                                                out.println("selected");
-                                            } %> >Tuen Mun</option>
-                                            <option value="Sha Tin" <% if (venue.getLocation().equals("Sha Tin")) {
-                                                out.println("selected");
-                                            } %> >Sha Tin</option>
-                                            <option value="Tsing Yi" <% if (venue.getLocation().equals("Tsing Yi")) {
-                                                out.println("selected");
-                                            } %> >Tsing Yi</option>
-                                            <option value="Lee Wai Lee" <% if (venue.getLocation().equals("Lee Wai Lee")) {
-                                                out.println("selected");
-                                            } %> >Lee Wai Lee</option>
-                                            <option value="Chai Wan" <% if (venue.getLocation().equals("Chai Wan")) {
-                                                out.println("selected");
-                                            }%> >Chai Wan</option>
+                                                <option value="Tuen Mun" <% if (venue.getLocation().equals("Tuen Mun")) {
+                                                        out.println("selected");
+                                                    } %> >Tuen Mun</option>
+                                                    <option value="Sha Tin" <% if (venue.getLocation().equals("Sha Tin")) {
+                                                            out.println("selected");
+                                                        } %> >Sha Tin</option>
+                                                    <option value="Tsing Yi" <% if (venue.getLocation().equals("Tsing Yi")) {
+                                                            out.println("selected");
+                                                        } %> >Tsing Yi</option>
+                                                    <option value="Lee Wai Lee" <% if (venue.getLocation().equals("Lee Wai Lee")) {
+                                                            out.println("selected");
+                                                        } %> >Lee Wai Lee</option>
+                                                    <option value="Chai Wan" <% if (venue.getLocation().equals("Chai Wan")) {
+                                                            out.println("selected");
+                                                        }%> >Chai Wan</option>
                                         </select>
                                     </div>
 
@@ -229,12 +243,12 @@
                                         <label for="inputEmail4" class="form-label">Is active</label>
                                         <!-- <input class="form-control" type="text" placeholder="Empty" aria-label="Disabled input example"> -->
                                         <select class="form-select" aria-label="Default select example" name="active" >
-                                            <option value="1" <% if (venue.getIsActive().equals("1")) {
-                                                out.println("selected");
-                                            } %> >Avabiliable</option>
-                                            <option value="0" <% if (venue.getIsActive().equals("0")) {
-                                                out.println("selected");
-                                            }%> >Unavabiliable</option>
+                                                <option value="1" <% if (venue.getIsActive().equals("1")) {
+                                                        out.println("selected");
+                                                    } %> >Avabiliable</option>
+                                                    <option value="0" <% if (venue.getIsActive().equals("0")) {
+                                                            out.println("selected");
+                                                        }%> >Unavabiliable</option>
                                         </select>
                                     </div>
 

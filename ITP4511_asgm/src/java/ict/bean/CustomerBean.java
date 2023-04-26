@@ -59,4 +59,8 @@ public class CustomerBean implements Serializable{
     public void setAge(int Age){
         this.Age = Age;
     }
+    
+    public String toString(){
+        return "CustomerBean{custid=" + CustId + ",name=" + Name + ",tel=" + Tel + ",age=" + Age + "}";
+    }
 }

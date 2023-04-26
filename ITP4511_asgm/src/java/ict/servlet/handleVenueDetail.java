@@ -88,9 +88,11 @@ public class handleVenueDetail extends HttpServlet {
             String action = request.getParameter("action");
             if(action.equals("edit")){
                 String message = "";
-                System.out.println("123");
+                
                 //  check if the user need to edit the record
+                System.out.println("process " + processData);
                 if(processData != null && processData.equals("create")){
+                    System.out.println("123");
     //                 create new record then return generated id
                     id = Integer.toString(db.createRecord(veunubean));
                     if(Integer.valueOf(id) > -1){
@@ -99,9 +101,9 @@ public class handleVenueDetail extends HttpServlet {
                          request.setAttribute("message", "Create data unsuccessfully");
                     }
                 }else if(processData != null && processData.equals("edit")){
-                    System.out.println("12344");
+//                    System.out.println("12344");
                     String imgLoc = request.getParameter("image");  
-                   if(db.editRecord(veunubean, imgLoc)){
+                   if(db.editRecord(veunubean)){
                         request.setAttribute("message", "Update data successfully");
                    }else{
                        request.setAttribute("message", "Update data unsuccessfully");
