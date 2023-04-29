@@ -4,11 +4,13 @@
  */
 package ict.bean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author tomleung
  */
-public class UserBean {
+public class UserBean implements Serializable{
     private int id;
     private String name;
     private int phone;

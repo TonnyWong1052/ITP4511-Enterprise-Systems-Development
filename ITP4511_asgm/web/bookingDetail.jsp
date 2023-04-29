@@ -4,10 +4,11 @@
     Author     : user
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%> -->
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList" %>
+<%@page import="ict.bean.BookingBean" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Venue Detail</title>
@@ -70,33 +71,10 @@
 
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
+        <jsp:include page="include/spinner.jsp" />
 
         <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary">EPL Backend</h3>
-                </a>
-                <div class="navbar-nav w-100">
-                    <a href="venueManagement.html" class="nav-item nav-link"><i
-                            class="bi bi-shop-window me-2"></i>Venue</a>
-                    <a href="bookingManagement.html" class="nav-item nav-link active"><i
-                            class="bi bi-bag me-2"></i>Booking</a>
-                    <a href="userManagement.html" class="nav-item nav-link"><i
-                            class="bi bi-people-fill me-2"></i>User</a>
-                    <a href="analysis.html" class="nav-item nav-link"><i class="bi bi-graph-up me-2"></i>Analysis</a>
-                </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
+        <jsp:include page="include/sidebar/sidebar-booking.jsp" />
 
         
         <!-- Content Start -->
@@ -233,15 +211,7 @@
             <!-- Table End -->
 
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; Event Point Limited, All Right Reserved.
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <jsp:include page="include/footer.jsp" />
             <!-- Footer End -->
         </div>
         <!-- Content End -->

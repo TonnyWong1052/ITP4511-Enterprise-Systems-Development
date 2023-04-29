@@ -4,10 +4,14 @@
     Author     : user
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%> -->
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList" %>
+<%@page import="ict.bean.BookingBean" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<%
+    ArrayList<BookingBean> bookingbean = (ArrayList<BookingBean>)request.getAttribute("b");
+%>
 <head>
     <meta charset="utf-8">
     <title>Booking Management</title>
@@ -52,29 +56,10 @@
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
+        <jsp:include page="include/spinner.jsp" />
 
         <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary">EPL Backend</h3>
-                </a>
-                <div class="navbar-nav w-100">
-                    <a href="venueManagement.html" class="nav-item nav-link"><i class="bi bi-shop-window me-2"></i>Venue</a>
-                    <a href="bookingManagement.html" class="nav-item nav-link active"><i class="bi bi-bag me-2"></i>Booking</a>
-                    <a href="userManagement.html" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>User</a>
-                    <a href="analysis.html" class="nav-item nav-link"><i class="bi bi-graph-up me-2"></i>Analysis</a>
-                </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
+        <jsp:include page="include/sidebar/sidebar-booking.jsp" />
 
 
         <!-- Content Start -->
@@ -113,8 +98,11 @@
                                 <p style="display: inline-block;">Booking Management</p>
                                 <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Export CSV</button>
                             </h6>
-                     
-                            <input class="form-control border-0" id="search" type="search" placeholder="Search" style="width:300px;display: inline;">
+                            
+                            <form action="handleBookingManagement" >
+                                <input class="form-control border-0" id="search" name="search" type="search" placeholder="Search" style="width:300px;display: inline;">
+                            </form>
+
                             <!-- <i class="bi bi-search fa-1x" style="margin-left: 10px;" ></i> -->
                             <span style="margin-left: 20px;">Filter: </span>
                             <div class="form-check" style="display: inline-block;margin-right: 10px;">
@@ -153,33 +141,25 @@
                                         <th scope="col">Venue item</th>
                                         <th scope="col">Create at</th>
                                         <th scope="col">Status</th>
+                                        <th scope="col">Amount</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Tonny Chan</td>
-                                        <td>2</td>
-                                        <td>3-4-2023</td>
-                                        <td><span class="badge bg-secondary">Pending</span></td>
-                                        <td><a href="BookingDetail.html"><button type="button" class="btn btn-sm btn-primary">Detail</button></a></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td><button type="button" class="btn btn-sm btn-primary">Detail</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                        <td>jhon@email.com</td>
-                                    </tr>
+                                    <%
+                                        for(int x=0;x<bookingbean.size();x++){
+                                            BookingBean venue = bookingbean.get(x);
+                                            out.println("<tr>");
+                                            out.println("<td>" + venue.getId() + "</td>");
+                                            out.println("<td>" + venue.getUserId() + "</td>");
+                                            out.println("<td>" + "1" + "</td>");
+                                            out.println("<td>" + venue.getCreatedAt() + "</td>");
+                                            out.println("<td>" + venue.getBookingStatus() + "</td>");
+                                            out.println("<td>" + venue.getAmount() + "</td>");
+                                            out.println("<td><a href='handleVenueDetail?action=edit&id=" + venue.getId() + "'><button type='button' class='btn btn-sm btn-primary'>Detail</button></a></td>");
+                                            out.println("</tr>");
+                                        }
+                                    %>
                                 </tbody>
                             </table>
                         </div>
@@ -190,15 +170,7 @@
 
 
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; Event Point Limited, All Right Reserved. 
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <jsp:include page="include/footer.jsp" />
             <!-- Footer End -->
         </div>
         <!-- Content End -->

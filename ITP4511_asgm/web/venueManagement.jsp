@@ -58,7 +58,6 @@
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <jsp:include page="include/spinner.jsp" />
 
-
         <!-- Sidebar Start -->
         <jsp:include page="include/sidebar/sidebar-venue.jsp" />
         
@@ -78,7 +77,9 @@
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4" style="font-size: 30px;">
                                 Venue Management
-                                <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Add Venue</button>
+                                <a href="handleVenueDetail?action=create">
+                                    <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Add Venue</button>
+                                </a>
                             </h6>
                      
                             <form action="handleVenueManagement" >
@@ -105,7 +106,7 @@
                                             out.println("<td>" + venue.getType() + "</td>");
                                             out.println("<td>" + venue.getCapacity() + "</td>");
                                             out.println("<td>" + venue.getLocation() + "</td>");
-                                            out.println("<td><a href='handleVenueDetail?id=" + venue.getId() + "'><button type='button' class='btn btn-sm btn-primary'>Detail</button></a></td>");
+                                            out.println("<td><a href='handleVenueDetail?action=edit&id=" + venue.getId() + "'><button type='button' class='btn btn-sm btn-primary'>Detail</button></a></td>");
                                             out.println("</tr>");
                                         }
                                     %>

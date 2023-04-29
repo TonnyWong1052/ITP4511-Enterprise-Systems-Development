@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 package ict.bean;
-
+import java.io.Serializable;
 /**
  *
  * @author user
  */
-public class venuesBean {
+public class venuesBean implements Serializable {
     private int id;
     private String name;
     private String type;
@@ -20,7 +20,20 @@ public class venuesBean {
     private int hourlyRate;
     private String isActive;
     private byte[] image;
-
+    
+    public venuesBean() {
+        this.id = 0;
+        this.name = "";
+        this.type = "";
+        this.capacity = 0;
+        this.location = "";
+        this.description = "";
+        this.personInCharge = "";
+        this.hourlyRate = 0;
+        this.isActive = "";
+        this.image = new byte[0];
+    }
+    
     public int getId() {
         return id;
     }

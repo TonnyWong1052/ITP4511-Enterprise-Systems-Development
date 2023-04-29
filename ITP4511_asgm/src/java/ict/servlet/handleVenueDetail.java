@@ -56,42 +56,76 @@ public class handleVenueDetail extends HttpServlet {
         String active = request.getParameter("active");
         String image = request.getParameter("image");
         
-//      check if the name is exist, then update database
+        String processData = request.getParameter("processData");
+//        if form has been submit, encapsulate the data to java bean
+        venuesBean veunubean = new venuesBean();
         if(name != null){
-              venuesBean veunubean = new venuesBean();
-              veunubean.setId(Integer.parseInt(id));
-              veunubean.setName(name);
-              veunubean.setType(type);
-              veunubean.setCapacity(Integer.parseInt(capacity));
-              veunubean.setLocation(location);
-              veunubean.setDescription(description);
-              veunubean.setPersonInCharge(person_in_charge);
-              veunubean.setHourlyRate(Integer.parseInt(hourly_rate));
-              veunubean.setActive(active);
-              veunubean.setImage(image.getBytes());
-            String message = "";
-            if(db.editRecord(veunubean)){
-                message = "Update data successfully";
-            }else{
-                message = "Update data unsuccessfully";
-            }
-            request.setAttribute("message", message);
+            veunubean.setId(Integer.parseInt(id));
+            veunubean.setName(name);
+            veunubean.setType(type);
+            veunubean.setCapacity(Integer.parseInt(capacity));
+            veunubean.setLocation(location);
+            veunubean.setDescription(description);
+            veunubean.setPersonInCharge(person_in_charge);
+            veunubean.setHourlyRate(Integer.parseInt(hourly_rate));
+            veunubean.setActive(active);
+            veunubean.setImage(image.getBytes());
         }
         
-        if (id != null && !id.isEmpty() || id != null){        
-            venuesBean venue = db.queryVenueByID(id);
-            request.setAttribute("v", venue);
-            rd = getServletContext().getRequestDispatcher("/venueDetail.jsp");
-            rd.forward(request, response);
-        }else{
-//            data update
-//            System.out.println("name: " + name);
-//            System.out.println("id: " + id);
-//            venuesBean venue = db.queryVenueByID(id);
-//            request.setAttribute("v", venue);
+//      Update data model
+//      check if the name is exist, then update database
+        try{
+            String action = request.getParameter("action");
+            if(action.equals("edit")){
+                String message = "";
+                //  check if the user need to edit the record
+                if(processData != null && processData.equals("create")){
+    //                 create new record then return generated id
+                    id = Integer.toString(db.createRecord(veunubean));
+                    if(Integer.valueOf(id) > -1){
+                         request.setAttribute("message", "Create data successfully");
+                    }else{
+                         request.setAttribute("message", "Create data unsuccessfully");
+                    }
+                }else if(processData != null && processData.equals("edit")){
+
+                   if(db.editRecord(veunubean)){
+                        request.setAttribute("message", "Update data successfully");
+                   }else{
+                       request.setAttribute("message", "Update data unsuccessfully");
+                   }
+
+               }
+
+               venuesBean venue = db.queryVenueByID(id);
+               if (!id.isEmpty() || id != null || venue == null){        
+                   //System.out.println("venue: "  +venue.getName());
+                    request.setAttribute("v", venue);
+                    byte[] imageBytes = venue.getImage();
+                    request.setAttribute("imageBytes", imageBytes);
+                    rd = getServletContext().getRequestDispatcher("/venueDetail.jsp");
+               }else{
+                   rd = getServletContext().getRequestDispatcher("/errorPage/error.html");    
+               }
+           }else if(action.equals("create")){         
+   //            check if the user click submit button to create record
+               if(processData != null && processData.equals("create")){
+                   db.createRecord(veunubean);
+                   venuesBean venue = db.queryVenueByID(id);
+                   request.setAttribute("v", venue);
+               }else{
+                   request.setAttribute("v", new venuesBean());
+               }
+               rd = getServletContext().getRequestDispatcher("/venueDetail.jsp");
+           }else{
+               rd = getServletContext().getRequestDispatcher("/errorPage/error.html");
+           }        
+        }catch(Exception ex){
+            ex.printStackTrace();
             rd = getServletContext().getRequestDispatcher("/errorPage/error.html");
             rd.forward(request, response);
         }
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

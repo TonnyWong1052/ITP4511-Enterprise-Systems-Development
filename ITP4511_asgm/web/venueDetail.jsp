@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <%@page import="java.util.ArrayList" %>
 <%@page import="ict.bean.venuesBean" %>
+<%@ taglib  prefix="ict" uri="/WEB-INF/tlds/displayImage.tld" %>
 <%
     venuesBean venue = (venuesBean)request.getAttribute("v");
 %>
@@ -51,7 +52,6 @@
         <%
             
             String message = (String)request.getAttribute("message");
-            System.out.println("message: " + message);
             if(request.getAttribute("message")!= null){
         %>
 //            System.out.println("message: " + request.getAttribute("message").toString());
@@ -121,7 +121,9 @@
                             </nav>
                             <!--enctype="multipart/form-data"-->
                             <!--<form class="row g-3" action="handleVenueDetail?id=<%= venue.getId()%>" method="POST"  >-->
-                            <form class="row g-3" action="handleVenueDetail?id=<%= venue.getId()%>" method="POST"  >
+                            <form class="row g-3" action="handleVenueDetail?action=edit&id=<%= venue.getId()%>" method="POST"  >
+                                <input type="hidden" name="processData" value="<%= request.getParameter("action") %>" />
+                                
                                 <%
                                     String base64Image = Base64.getEncoder().encodeToString(venue.getImage());
                                     String imageSrc = "";
@@ -131,18 +133,28 @@
                                         imageSrc = "./img/no-available.jpg";
                                     }
                                     System.out.println(imageSrc);
+                                    out.println(venue.getImage());
                                 %>
+                                <ict:displayImage imageBytes="${requestScope.imageBytes}" />
+                                
                                 <img src="<%= imageSrc %>" alt="" name="picture" id="picture" style="margin-left: auto; margin-right: auto;display: block;max-height: 250px;max-width: 400px; cursor: pointer;" onclick="document.getElementById('file').click();">
                                 <input type="file" id="file" name="image" onchange="loadFile(event)" accept="image/*" style="display: none;">
                                 <!-- <input type="button" value="Browse..." onclick="document.getElementById('file').click();" style="margin-left: auto; margin-right: auto;display: block;" /> -->
                                 <!-- <input class="form-control border-0" type="search" placeholder="Search" style="width:300px;display: inline;">
                                 <i class="bi bi-search fa-1x" style="margin-left: 10px;" ></i> -->
-
+                                
+                                <% 
+                                    String id;
+                                    if(venue.getId()!=0)
+                                        id =  Integer.toString(venue.getId());
+                                    else
+                                        id = "Not Suitable";
+                                %>
                                 <p style="font-size: 25px;">Information</p>
                                 <input type="hidden" name="id" value="<%= venue.getId() %>"  >
                                 <div class="col-md-6">
                                   <label for="inputEmail4" class="form-label">Venue ID</label>
-                                  <input type="text" class="form-control" id="venueId" name="venueId"  value="<%= venue.getId() %>" disabled="disabled"  >
+                                  <input type="text" class="form-control" id="venueId" name="venueId"  value="<%= id %>" disabled="disabled"  >
                                 </div>
                                 <div class="col-md-6">
                                   <label for="inputPassword4" class="form-label">Name</label>

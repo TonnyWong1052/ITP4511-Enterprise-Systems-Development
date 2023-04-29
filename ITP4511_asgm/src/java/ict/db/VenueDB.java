@@ -150,9 +150,13 @@ public class VenueDB {
                 cb.setPersonInCharge(rs.getString(7));
                 cb.setHourlyRate(rs.getInt(8));
                 cb.setActive(rs.getString(9));
-                Blob blob = rs.getBlob(10);
-                byte[] imageBytes = blob.getBytes(1, (int) blob.length());
-                cb.setImage(imageBytes);
+//                cb.setImage(rs.getBytes(10));
+                Blob imageBlob = rs.getBlob(10);
+                if (imageBlob != null) {
+                    cb.setImage(imageBlob.getBytes(1, (int) imageBlob.length()));
+                } else {
+                    cb.setImage(null);
+                }
             }
             pStmnt.close();
             cnnct.close();
@@ -192,7 +196,12 @@ public class VenueDB {
                 cb.setPersonInCharge(rs.getString(7));
                 cb.setHourlyRate(rs.getInt(8));
                 cb.setActive(rs.getString(9));
-                cb.setImage(rs.getBytes(10));
+                Blob imageBlob = rs.getBlob(10);
+                if (imageBlob != null) {
+                    cb.setImage(imageBlob.getBytes(1, (int) imageBlob.length()));
+                } else {
+                    cb.setImage(null);
+                }
             }
             pStmnt.close();
             cnnct.close();
@@ -208,16 +217,6 @@ public class VenueDB {
         return cb;
     }
     
-//    String id = request.getParameter("id");
-//        String name = request.getParameter("name");
-//        String type = request.getParameter("type");
-//        String capacity = request.getParameter("capacity");
-//        String location = request.getParameter("location");
-//        String description = request.getParameter("description");
-//        String person_in_charge = request.getParameter("person_in_charge");
-//        String hourly_rate = request.getParameter("hourly_rate");
-//        String active = request.getParameter("active");
-//        String image = request.getParameter("image");
         
     public boolean editRecord(venuesBean cb){
         Connection cnnct = null;
@@ -238,6 +237,8 @@ public class VenueDB {
             pStmnt.setInt(8, cb.getHourlyRate());
             pStmnt.setString(9, cb.getIsActive());
             pStmnt.setBytes(10, cb.getImage());
+            
+            
             pStmnt.setInt(11, cb.getId());
             
             pStmnt.executeUpdate();
@@ -260,5 +261,51 @@ public class VenueDB {
             System.out.println(ex.getMessage());
         }
         return isSuccess;
+    }
+    
+    public int createRecord(venuesBean cb) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        int generatedId = -1;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT INTO venues (name, type, capacity, location, description, person_in_charge, hourly_rate, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement, PreparedStatement.RETURN_GENERATED_KEYS);
+            pStmnt.setString(1, cb.getName());
+            pStmnt.setString(2, cb.getType());
+            pStmnt.setInt(3, cb.getCapacity());
+            pStmnt.setString(4, cb.getLocation());
+            pStmnt.setString(5, cb.getDescription());
+            pStmnt.setString(6, cb.getPersonInCharge());
+            pStmnt.setInt(7, cb.getHourlyRate());
+            pStmnt.setString(8, cb.getIsActive());
+            pStmnt.setBytes(9, cb.getImage());
+            
+            pStmnt.executeUpdate();
+
+            ResultSet rs = pStmnt.getGeneratedKeys();
+            if (rs.next()) {
+                generatedId = rs.getInt(1);
+            }
+        
+//            int count = pStmnt.getUpdateCount();
+//            System.out.println(count);
+//            if (count > 0)
+//                isSuccess = true;
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+//            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+//            System.out.println(ex.getMessage());
+        }
+        return generatedId;
     }
 }
