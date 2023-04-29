@@ -121,7 +121,7 @@
                             </nav>
                             <!--enctype="multipart/form-data"-->
                             <!--<form class="row g-3" action="handleVenueDetail?id=<%= venue.getId()%>" method="POST"  >-->
-                            <form class="row g-3" action="handleVenueDetail?action=edit&id=<%= venue.getId()%>" method="POST"  >
+                            <form class="row g-3" action="handleVenueDetail?action=edit&id=<%= venue.getId()%>" method="post" enctype="multipart/form-data"  >
                                 <input type="hidden" name="processData" value="<%= request.getParameter("action") %>" />
                                 
                                 <%

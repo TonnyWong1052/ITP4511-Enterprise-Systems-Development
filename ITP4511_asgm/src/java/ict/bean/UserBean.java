@@ -30,7 +30,13 @@ public class UserBean implements Serializable{
     }
     
     public UserBean(){
-        
+        id = -1;
+        name = "";
+        phone = 0;
+        email = "";
+        password = "";
+        role = "";
+        status = "";
     }
 
     public int getId() {

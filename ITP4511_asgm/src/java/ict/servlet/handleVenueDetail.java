@@ -9,6 +9,7 @@ import ict.bean.venuesBean;
 import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -88,8 +90,10 @@ public class handleVenueDetail extends HttpServlet {
                          request.setAttribute("message", "Create data unsuccessfully");
                     }
                 }else if(processData != null && processData.equals("edit")){
-
-                   if(db.editRecord(veunubean)){
+                    Part filePart = request.getPart("image");
+                    String fileName = filePart.getSubmittedFileName();
+                    InputStream fileContent = filePart.getInputStream();
+                   if(db.editRecord(veunubean, fileContent)){
                         request.setAttribute("message", "Update data successfully");
                    }else{
                        request.setAttribute("message", "Update data unsuccessfully");
@@ -120,7 +124,7 @@ public class handleVenueDetail extends HttpServlet {
            }else{
                rd = getServletContext().getRequestDispatcher("/errorPage/error.html");
            }        
-        }catch(Exception ex){
+        }catch(IOException | NumberFormatException | ServletException ex){
             ex.printStackTrace();
             rd = getServletContext().getRequestDispatcher("/errorPage/error.html");
             rd.forward(request, response);

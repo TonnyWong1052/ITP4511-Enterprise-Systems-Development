@@ -6,6 +6,7 @@
 package ict.db;
 import ict.bean.venuesBean;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -218,7 +219,7 @@ public class VenueDB {
     }
     
         
-    public boolean editRecord(venuesBean cb){
+    public boolean editRecord(venuesBean cb, InputStream inputStreae){
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
@@ -236,8 +237,7 @@ public class VenueDB {
             pStmnt.setString(7, cb.getPersonInCharge());
             pStmnt.setInt(8, cb.getHourlyRate());
             pStmnt.setString(9, cb.getIsActive());
-            pStmnt.setBytes(10, cb.getImage());
-            
+            pStmnt.setBlob(10, inputStreae);
             
             pStmnt.setInt(11, cb.getId());
             

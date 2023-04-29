@@ -5,14 +5,8 @@
  */
 package ict.servlet;
 
-import ict.bean.BookingBean;
-import ict.bean.venuesBean;
-import ict.db.BookingDB;
-import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,17 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author qwer1
  */
-@WebServlet(name = "handleBookingManagement", urlPatterns = {"/handleBookingManagement"})
-public class handleBookingManagement extends HttpServlet {
-    private BookingDB db;
-    
-    @Override
-    public void init() {
-        String dbUser = this.getServletContext().getInitParameter("dbUser");
-        String dbPassword = this.getServletContext().getInitParameter("dbPassword");
-        String dbUrl = this.getServletContext().getInitParameter("dbUrl");
-        db = new BookingDB(dbUrl, dbUser, dbPassword);
-    } 
+@WebServlet(name = "handleAnalysisReport", urlPatterns = {"/handleAnalysisReport"})
+public class handleAnalysisReport extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,19 +31,18 @@ public class handleBookingManagement extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd;
-        String action = request.getParameter("search");
-        if (!"".equals(action) && action != null) {
-            ArrayList<BookingBean> booking = db.queryCustByIDv2(action);
-            request.setAttribute("b", booking);
-            
-            rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
-            rd.forward(request, response);
-        }else{
-            ArrayList<BookingBean> booking = db.queryCustv2();
-            request.setAttribute("b", booking);
-            rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
-            rd.forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet handleAnalysisReport</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet handleAnalysisReport at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

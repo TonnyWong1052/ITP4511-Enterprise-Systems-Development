@@ -5,10 +5,14 @@
  */
 package ict.servlet;
 
+import ict.bean.BookingBean;
 import ict.bean.OrderBookingBean;
+import ict.bean.UserBean;
+import ict.db.UserDB;
 import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,14 +26,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "handleUserManagement", urlPatterns = {"/handleUserManagement"})
 public class handleUserManagement extends HttpServlet {
-    private VenueDB db;
+    private UserDB db;
     
     @Override
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
-        db = new VenueDB(dbUrl, dbUser, dbPassword);
+        db = new UserDB(dbUrl, dbUser, dbPassword);
     } 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,11 +45,27 @@ public class handleUserManagement extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String id = request.getParameter("id"); 
+            throws ServletException, IOException { 
+        RequestDispatcher rd;
+        String action = request.getParameter("search");
+            if (!"".equals(action) && action != null) {
+                ArrayList<UserBean> user = db.queryUserByID(action);
+                request.setAttribute("u", user);
+
+                rd = getServletContext().getRequestDispatcher("/userManagement.jsp");
+                rd.forward(request, response);
+            }
+//else{
+//            ArrayList<UserBean> user = db.queryUserByID(id);
+//            request.setAttribute("u", user);
+//            rd = getServletContext().getRequestDispatcher("/userManagement.jsp");
+//            rd.forward(request, response);
+//        }
         //OrderBookingBean obb = db.queryCustOrderBooking(id);
         //request.setAttribute("obb", obb);
-        RequestDispatcher rd;
+//        RequestDispatcher rd;
+        ArrayList<UserBean> user = db.queryUser();
+        request.setAttribute("u", user);
         rd = getServletContext().getRequestDispatcher("/userManagement.jsp");
         rd.forward(request, response);
     }

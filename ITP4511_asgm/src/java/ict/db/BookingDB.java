@@ -376,4 +376,56 @@ public class BookingDB {
 
         return obb;
     }
+    
+    public ArrayList<BookingBean> queryCustByUserIDv2(String UserId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        BookingBean bb = null;
+
+        ArrayList<BookingBean> bbList = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT id, user_id, venue_id, date, start_time, end_time, booking_status, payment_status, check_in_time, check_out_time, member_remarks, staff_remarks, created_at, updated_at, venue_comment, Amount, COUNT(`id`) AS `total_item`, SUM(`Amount`) AS Total_Amount FROM bookings WHERE `user_id`=? GROUP BY `id`";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, UserId);
+
+            ResultSet rs = pStmnt.executeQuery();
+            bbList = new ArrayList();
+
+            while (rs.next()) {
+                bb = new BookingBean();
+                bb.setId(rs.getInt(1));
+                bb.setUserId(rs.getInt(2));
+                bb.setVenueId(rs.getInt(3));
+                bb.setDate(rs.getDate(4));
+                bb.setStartTime(rs.getTime(5));
+                bb.setEndTime(rs.getTime(6));
+                bb.setBookingStatus(rs.getString(7));
+                bb.setPaymentStatus(rs.getString(8));
+                bb.setCheckInTime(rs.getTimestamp(9));
+                bb.setCheckOutTime(rs.getTimestamp(10));
+                bb.setMemberRemarks(rs.getString(11));
+                bb.setStaffRemarks(rs.getString(12));
+                bb.setCreatedAt(rs.getTimestamp(13));
+                bb.setUpdatedAt(rs.getTimestamp(14));
+                bb.setVenueComment(rs.getString(15));
+                bb.setAmount(rs.getInt(16));   
+                bb.setTotal_item(rs.getInt(17));
+                bb.setTotalAmount(rs.getInt(18));
+                bbList.add(bb);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return bbList;
+    }
 }
