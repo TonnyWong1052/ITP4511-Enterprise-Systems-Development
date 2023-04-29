@@ -6,13 +6,10 @@
 package ict.servlet;
 
 import ict.bean.BookingBean;
-import ict.bean.venuesBean;
 import ict.db.BookingDB;
-import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author qwer1
  */
-@WebServlet(name = "handleBookingManagement", urlPatterns = {"/handleBookingManagement"})
-public class handleBookingManagement extends HttpServlet {
+@WebServlet(name = "exportCSV", urlPatterns = {"/exportCSV"})
+public class exportCSV extends HttpServlet {
     private BookingDB db;
     
     @Override
@@ -45,20 +42,27 @@ public class handleBookingManagement extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd;
-        String action = request.getParameter("search");
-//        System.out.println(action);
-        if (!"".equals(action) && action != null) {
-            ArrayList<BookingBean> booking = db.queryCustByIDv2(action);
-            request.setAttribute("b", booking);
-            
-            rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
-            rd.forward(request, response);
-        }else{
-            ArrayList<BookingBean> booking = db.queryCustv2();
-            request.setAttribute("b", booking);
-            rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
-            rd.forward(request, response);
+        ArrayList<BookingBean> booking = db.queryCust();
+
+        // Set the response headers for CSV export
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=orders.csv");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Expires", "0");
+        
+        System.out.println("Number of bookings: " + booking.size());
+        // Write the CSV header
+        try (PrintWriter out = response.getWriter()) {
+            // Write the CSV header
+            out.print("Order ID, User ID, Venue ID, Date, Start Time, End Time, Booking Status, Payment Status, CheckIn Time, CheckOut Time, Created At, Update At, Amount \n");
+            // Write the user data
+            for (BookingBean b : booking) {
+                out.printf("%d,%d,%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s \n",
+                        b.getId(), b.getUserId(), b.getVenueId(), b.getDate(), b.getStartTime(), b.getEndTime(),
+                        b.getBookingStatus(), b.getPaymentStatus(), b.getCheckInTime(), b.getCheckOutTime(),
+                        b.getCreatedAt(), b.getUpdatedAt(), b.getAmount());
+            }
         }
     }
 

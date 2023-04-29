@@ -7,6 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList" %>
 <%@page import="ict.bean.BookingBean" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="ict.bean.OrderBookingBean" %>
+
+<%
+    OrderBookingBean obb = (OrderBookingBean) request.getAttribute("obb");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,35 +22,35 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+<!-- Favicon -->
+<link href="img/favicon.ico" rel="icon">
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Icon Font Stylesheet -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<!-- Libraries Stylesheet -->
+<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Customized Bootstrap Stylesheet -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+<!-- Template Stylesheet -->
+<link href="css/style.css" rel="stylesheet">
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"> -->
 </head>
-    <script>
-        window.onload = function() {
-            document.getElementById("model-btn").click();
-        };
-    </script>
+<script>
+    window.onload = function () {
+        document.getElementById("model-btn").click();
+    };
+</script>
 <body>
     <!-- Modal setting -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;" id="model-btn">
@@ -76,7 +82,7 @@
         <!-- Sidebar Start -->
         <jsp:include page="include/sidebar/sidebar-booking.jsp" />
 
-        
+
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
@@ -92,7 +98,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/Sample_User_Icon.png" alt=""
-                                style="width: 40px; height: 40px;">
+                                 style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
@@ -114,9 +120,9 @@
                             <h6 class="mb-4" style="font-size: 40px;">
                                 <p style="display: inline-block;">Booking Detail</p>
                                 <button type="button" class="btn btn-outline-warning m-2"
-                                    style="float: right;width: 85px;">Decline</button>
+                                        style="float: right;width: 85px;">Decline</button>
                                 <button type="button" class="btn btn-outline-success m-2"
-                                    style="float: right;width: 85px;">Approve</button>
+                                        style="float: right;width: 85px;">Approve</button>
                             </h6>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -133,77 +139,85 @@
                                 </h5>
                                 <div class="col-md-6">
                                     <label for="inputEmail4" class="form-label">User ID</label>
-                                    <input type="text" class="form-control" id="inputEmail4" disabled>
+                                    <input type="text" class="form-control" id="inputEmail4" value="<%= obb.getUserID()%>"  disabled>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="inputEmail4" class="form-label">User Name</label>
-                                    <input type="text" class="form-control" id="inputEmail4" disabled>
+                                    <input type="text" class="form-control" id="inputEmail4" value="Chan Xiu Ming" disabled>
                                 </div> <br>
+                            </form>
 
-                                <hr style="border-top: 2px solid black; width: 100%;">
+                            <%
+                                for (int x = 0; x < obb.getBookingList().size(); x++) {
+                                    BookingBean tempbb = obb.getBookingList().get(x);
+                            %>
+                            <hr style="border-top: 2px solid black; width: 100%;">
+
+                            <form class="row g-3" action="handleBookingDeetail?id" method="POST">
 
                                 <h5>
-                                    Venue #1
+                                    Venue #<%= x + 1%>
                                     <button type="button" class="btn btn-outline-info m-1">Detail</button>
                                 </h5>
 
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Venue ID</label>
-                                    <input type="email" class="form-control" id="inputEmail4" disabled>
+                                    <label for="venueId<%= x%>" class="form-label">Venue ID</label>
+                                    <input type="text" class="form-control" id="venueId<%= x%>" value="<%= tempbb.getVenueId()%>" disabled>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Venue Name</label>
-                                    <input type="email" class="form-control" id="inputEmail4" disabled>
+                                    <label for="venueName<%= x%>" class="form-label">Venue Name</label>
+                                    <input type="text" class="form-control" id="venueName<%= x%>" value="TinShuiWai" disabled>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Create Date</label>
-                                    <input type="Date" class="form-control" value="23:05" />
+                                    <label for="createDate<%= x%>" class="form-label">Create Date</label>
+                                    <input type="date" class="form-control" id="createDate<%= x%>" value="<%= tempbb.getCreatedAt() %>" />
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Start Time</label>
-                                    <input type="time" class="form-control" value="23:05" />
+                                    <label for="startTime<%= x%>" class="form-label">Start Time</label>
+                                    <input type="time" class="form-control" id="startTime<%= x%>" value="<%= tempbb.getStartTime()%>" />
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">End Time</label>
-                                    <input type="time" class="form-control" value="23:05" />
+                                    <label for="endTime<%= x%>" class="form-label">End Time</label>
+                                    <input type="time" class="form-control" id="endTime<%= x%>" value="<%= tempbb.getEndTime()%>" />
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Booking Status</label>
-                                    <input type="text" class="form-control" id="inputEmail4" value="Pending" disabled>
+                                    <label for="bookingStatus<%= x%>" class="form-label">Booking Status</label>
+                                    <input type="text" class="form-control" id="bookingStatus<%= x%>" value="<%= tempbb.getBookingStatus()%>" disabled>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Payment Status</label>
-                                    <input type="text" class="form-control" id="inputEmail4" value="Unpaid" disabled>
+                                    <label for="paymentStatus<%= x%>" class="form-label">Payment Status</label>
+                                    <input type="text" class="form-control" id="paymentStatus<%= x%>" value="<%= tempbb.getPaymentStatus()%>" disabled>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="inputEmail4" class="form-label">Amount</label>
-                                    <input type="number" id="typeNumber" class="form-control" />
+                                    <label for="amount<%= x%>" class="form-label">Amount</label>
+                                    <input type="number" id="amount<%= x%>" class="form-control" value="<%= tempbb.getAmount()%>" />
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Member Remark</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <label for="memberRemark<%= x%>" class="form-label">Member Remark</label>
+                                    <textarea class="form-control" id="memberRemark<%= x%>" rows="3"><%= tempbb.getMemberRemarks() %></textarea>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Staff Remark</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <label for="staffRemark<%= x%>" class="form-label">Staff Remark</label>
+                                    <textarea class="form-control" id="staffRemark<%= x%>" rows="3"><%= tempbb.getStaffRemarks() %></textarea>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary"
-                                        style="max-width: 100px;">Edit</button>
+                                    <button type="submit" class="btn btn-primary" style="max-width: 100px;">Edit</button>
                                 </div>
-
                             </form>
+                            <%
+                                } // Closing the for loop
+                            %>
                         </div>
                     </div>
                 </div>

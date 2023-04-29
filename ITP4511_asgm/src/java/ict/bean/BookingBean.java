@@ -31,6 +31,9 @@ public class BookingBean implements Serializable{
     private Timestamp updatedAt;
     private String venueComment;
     private int amount;
+//    for group by sql only
+    private int total_item;
+    private int total_Amount ;
 
     // Getters and setters for all fields
 
@@ -160,5 +163,21 @@ public class BookingBean implements Serializable{
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+    
+    public int getTotalItem() {
+        return total_item;
+    }
+
+    public void setTotal_item(int total_item) {
+        this.total_item = total_item;
+    }
+    
+    public int getTotalAmount() {
+        return total_Amount;
+    }
+
+    public void setTotalAmount(int total_Amount) {
+        this.total_Amount = total_Amount;
     }
 }

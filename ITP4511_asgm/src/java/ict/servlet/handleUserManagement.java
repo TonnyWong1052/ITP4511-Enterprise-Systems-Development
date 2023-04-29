@@ -5,13 +5,10 @@
  */
 package ict.servlet;
 
-import ict.bean.BookingBean;
-import ict.bean.venuesBean;
-import ict.db.BookingDB;
+import ict.bean.OrderBookingBean;
 import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,16 +20,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author qwer1
  */
-@WebServlet(name = "handleBookingManagement", urlPatterns = {"/handleBookingManagement"})
-public class handleBookingManagement extends HttpServlet {
-    private BookingDB db;
+@WebServlet(name = "handleUserManagement", urlPatterns = {"/handleUserManagement"})
+public class handleUserManagement extends HttpServlet {
+    private VenueDB db;
     
     @Override
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
-        db = new BookingDB(dbUrl, dbUser, dbPassword);
+        db = new VenueDB(dbUrl, dbUser, dbPassword);
     } 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,21 +42,12 @@ public class handleBookingManagement extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id"); 
+        //OrderBookingBean obb = db.queryCustOrderBooking(id);
+        //request.setAttribute("obb", obb);
         RequestDispatcher rd;
-        String action = request.getParameter("search");
-//        System.out.println(action);
-        if (!"".equals(action) && action != null) {
-            ArrayList<BookingBean> booking = db.queryCustByIDv2(action);
-            request.setAttribute("b", booking);
-            
-            rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
-            rd.forward(request, response);
-        }else{
-            ArrayList<BookingBean> booking = db.queryCustv2();
-            request.setAttribute("b", booking);
-            rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
-            rd.forward(request, response);
-        }
+        rd = getServletContext().getRequestDispatcher("/userManagement.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

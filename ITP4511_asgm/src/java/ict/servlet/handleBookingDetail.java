@@ -5,8 +5,12 @@
  */
 package ict.servlet;
 
+import ict.bean.OrderBookingBean;
+import ict.db.BookingDB;
+import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +23,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "handleBookingDetail", urlPatterns = {"/handleBookingDetail"})
 public class handleBookingDetail extends HttpServlet {
+    private BookingDB db;
+    
+    @Override
+    public void init() {
+        String dbUser = this.getServletContext().getInitParameter("dbUser");
+        String dbPassword = this.getServletContext().getInitParameter("dbPassword");
+        String dbUrl = this.getServletContext().getInitParameter("dbUrl");
+        db = new BookingDB(dbUrl, dbUser, dbPassword);
+    } 
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +44,13 @@ public class handleBookingDetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet handleBookingDetail</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet handleBookingDetail at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        String id = request.getParameter("id"); 
+        OrderBookingBean obb = db.queryCustOrderBooking(id);
+        request.setAttribute("obb", obb);
+        System.out.println("size: " + obb.getBookingList().size());
+        RequestDispatcher rd;
+        rd = getServletContext().getRequestDispatcher("/bookingDetail.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

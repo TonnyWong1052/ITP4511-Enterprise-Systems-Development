@@ -37,7 +37,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xMp9MvcqM" crossorigin="anonymous">
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <script>
@@ -95,8 +95,10 @@
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4" style="font-size: 30px;">
-                                <p style="display: inline-block;">Booking Management</p>
-                                <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Export CSV</button>
+                                <p style="display: inline-block;">Order Management</p>
+                                <a href="exportCSV">
+                                    <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Export CSV</button>
+                                </a>
                             </h6>
                             
                             <form action="handleBookingManagement" >
@@ -136,8 +138,8 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">User name</th>
+                                        <th scope="col">Order ID</th>
+                                        <th scope="col">User ID</th>
                                         <th scope="col">Venue item</th>
                                         <th scope="col">Create at</th>
                                         <th scope="col">Status</th>
@@ -149,14 +151,26 @@
                                     <%
                                         for(int x=0;x<bookingbean.size();x++){
                                             BookingBean venue = bookingbean.get(x);
+                                            String bookingStatus = venue.getBookingStatus();
+                                            String status = "";
+                                            if(bookingStatus.equals("Confirmed")){
+                                                status = "<span class='badge bg-success'>Confirmed</span>";
+                                            }if(bookingStatus.equals("Pending")){
+                                                status = "<span class='badge bg-primary'>Pending</span>";
+                                            }else if(bookingStatus.equals("Waiting for Payment")){
+                                                status = "<span class='badge bg-secondary'>Waiting for Payment</span>";
+                                            }else if(bookingStatus.equals("Declined")){
+                                                status = "<span class='badge bg-warning'>Declined</span>";
+                                            }
+                                            
                                             out.println("<tr>");
                                             out.println("<td>" + venue.getId() + "</td>");
                                             out.println("<td>" + venue.getUserId() + "</td>");
-                                            out.println("<td>" + "1" + "</td>");
+                                            out.println("<td>" + venue.getTotalItem() + "</td>");
                                             out.println("<td>" + venue.getCreatedAt() + "</td>");
-                                            out.println("<td>" + venue.getBookingStatus() + "</td>");
-                                            out.println("<td>" + venue.getAmount() + "</td>");
-                                            out.println("<td><a href='handleVenueDetail?action=edit&id=" + venue.getId() + "'><button type='button' class='btn btn-sm btn-primary'>Detail</button></a></td>");
+                                            out.println("<td>" + status + "</td>");
+                                            out.println("<td>$" + venue.getTotalAmount() + "</td>");
+                                            out.println("<td><a href='handleBookingDetail?id=" + venue.getId() + "'><button type='button' class='btn btn-sm btn-primary'>Detail</button></a></td>");
                                             out.println("</tr>");
                                         }
                                     %>
