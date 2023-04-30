@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+  if(session.getAttribute("Role")!= null && !session.getAttribute("Role").equals("Senior Management") ){
+      response.sendRedirect("errorPage/notEnoughPermission.html");
+  }  
+%>
 <html lang="en">
     <%@page import="java.util.ArrayList" %>
     <%@page import="ict.bean.UserBean" %>
@@ -62,7 +67,7 @@
                 <jsp:include page="include/spinner.jsp" />
 
                 <!-- Sidebar Start -->
-                <jsp:include page="include/sidebar/sidebar-booking.jsp" />
+                <jsp:include page="include/sidebar/sidebar-user.jsp" />
 
 
                 <!-- Content Start -->

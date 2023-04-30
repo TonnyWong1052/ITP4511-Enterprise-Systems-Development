@@ -18,6 +18,8 @@ public class UserBean implements Serializable{
     private String password;
     private String role;
     private String status;
+    private String monthlyAttendance;
+    private String yearlyAttendance;
     
     public UserBean(int id, String name, int phone, String email, String password, String role, String status) {
         this.id = id;
@@ -37,6 +39,22 @@ public class UserBean implements Serializable{
         password = "";
         role = "";
         status = "";
+    }
+    
+    public String getYearlyAttendance() {
+        return yearlyAttendance;
+    }
+
+    public void setYearlyAttendance(String yearlyAttendance) {
+        this.yearlyAttendance = yearlyAttendance;
+    }
+    
+    public String getMonthlyAttendance() {
+        return monthlyAttendance;
+    }
+
+    public void setMonthlyAttendance(String monthlyAttendance) {
+        this.monthlyAttendance = monthlyAttendance;
     }
 
     public int getId() {

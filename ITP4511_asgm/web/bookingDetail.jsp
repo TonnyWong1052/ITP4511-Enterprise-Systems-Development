@@ -9,9 +9,14 @@
 <%@page import="ict.bean.BookingBean" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="ict.bean.OrderBookingBean" %>
-
+<%
+    if (session.getAttribute("Role") != null && !session.getAttribute("Role").equals("Staff") && !session.getAttribute("Role").equals("Senior Management")) {
+        response.sendRedirect("errorPage/notEnoughPermission.html");
+    }
+%>
 <%
     OrderBookingBean obb = (OrderBookingBean) request.getAttribute("obb");
+    BookingBean firstbb = obb.getBookingList().get(0);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,11 +51,11 @@
 
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"> -->
 </head>
-<script>
+<!--<script>
     window.onload = function () {
         document.getElementById("model-btn").click();
     };
-</script>
+</script>-->
 <body>
     <!-- Modal setting -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display:none;" id="model-btn">
@@ -97,10 +102,29 @@
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4" style="font-size: 40px;">
                                 <p style="display: inline-block;">Booking Detail</p>
-                                <button type="button" class="btn btn-outline-warning m-2"
-                                        style="float: right;width: 85px;">Decline</button>
-                                <button type="button" class="btn btn-outline-success m-2"
-                                        style="float: right;width: 85px;">Approve</button>
+                                <form action="handleUpdateStatus" method="get" >
+                                    <input type="hidden" name="id" value="<%=firstbb.getId()%>" />
+                                    <%
+                                        if (firstbb.getBookingStatus().equals("Pending")) {
+                                    %>
+                                    <button type="submit" class="btn btn-outline-warning m-2" name="btnAction"
+                                            style="float: right;width: 100px;" value="Decline" >Decline</button>
+                                    <button type="submit" class="btn btn-outline-success m-2" name="btnAction"
+                                            style="float: right;width: 100px;" value="Confirmed" >Approve</button>
+                                    <%
+                                    } else if (firstbb.getBookingStatus().equals("Confirmed")) {
+                                    %>
+                                    <button type="submit" class="btn btn-outline-warning m-2" name="btnAction"
+                                            style="float: right;width: 100px;" value="CheckIn" >CheckIn</button>
+                                    <%
+                                    } else if (firstbb.getBookingStatus().equals("CheckIn")) {
+                                    %>
+                                    <button type="submit" class="btn btn-outline-warning m-2" name="btnAction"
+                                            style="float: right;width: 100px;" value="CheckOut" >CheckOut</button>
+                                    <%
+                                        }
+                                    %>
+                                </form>
                             </h6>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -136,7 +160,14 @@
 
                                 <h5>
                                     Venue #<%= x + 1%>
-                                    <button type="button" class="btn btn-outline-info m-1">Detail</button>
+                                    <a href="handleVenueDetail?action=edit&id=<%= tempbb.getId()%>"  style="display:inline-block;" >
+                                        <button type="button" class="btn btn-outline-info m-1"  >Detail</button>
+                                    </a>
+
+                                    <a  href="handleGuestList?id=<%= tempbb.getId() %>" > 
+                                        <button type="button" class="btn btn-outline-warning m-2" name="btnAction"
+                                                style="float: right;width: 100px;" value="CheckOut" >Guest List</button>
+                                    </a>
                                 </h5>
 
                                 <div class="col-md-6">
@@ -149,10 +180,10 @@
                                     <input type="text" class="form-control" id="venueName<%= x%>" value="TinShuiWai" disabled>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label for="createDate<%= x%>" class="form-label">Create Date</label>
-                                    <input type="date" class="form-control" id="createDate<%= x%>" value="<%= tempbb.getCreatedAt() %>" />
-                                </div>
+                                <!--                                <div class="col-md-6">
+                                                                    <label for="createDate<%= x%>" class="form-label">Create Date</label>
+                                                                    <input type="date" class="form-control" id="createDate<%= x%>" value="<%= tempbb.getCreatedAt()%>" />
+                                                                </div>-->
 
                                 <div class="col-md-6">
                                     <label for="startTime<%= x%>" class="form-label">Start Time</label>
@@ -181,12 +212,12 @@
 
                                 <div class="mb-3">
                                     <label for="memberRemark<%= x%>" class="form-label">Member Remark</label>
-                                    <textarea class="form-control" id="memberRemark<%= x%>" rows="3"><%= tempbb.getMemberRemarks() %></textarea>
+                                    <textarea class="form-control" id="memberRemark<%= x%>" rows="3"><%= tempbb.getMemberRemarks()%></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="staffRemark<%= x%>" class="form-label">Staff Remark</label>
-                                    <textarea class="form-control" id="staffRemark<%= x%>" rows="3"><%= tempbb.getStaffRemarks() %></textarea>
+                                    <textarea class="form-control" id="staffRemark<%= x%>" rows="3"><%= tempbb.getStaffRemarks()%></textarea>
                                 </div>
 
                                 <div class="col-md-6">

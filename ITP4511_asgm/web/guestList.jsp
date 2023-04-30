@@ -1,26 +1,26 @@
+<%@page import="ict.bean.GuestBean"%>
 <!-- <%-- 
-    Document   : venusManagement
+    Document   : BookingManagement
     Created on : Apr 21, 2023, 3:34:34 PM
     Author     : user
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%> -->
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList" %>
-<%@page import="ict.bean.venuesBean" %>
+<%@page import="ict.bean.BookingBean" %>
+<!DOCTYPE html>
+<html lang="en">
 <%
   if(session.getAttribute("Role")!= null && !session.getAttribute("Role").equals("Staff") && !session.getAttribute("Role").equals("Senior Management") ){
       response.sendRedirect("errorPage/notEnoughPermission.html");
   }  
 %>
 <%
-    ArrayList<venuesBean> venueBeans = (ArrayList<venuesBean>)request.getAttribute("v");
+    ArrayList<GuestBean> gb = (ArrayList<GuestBean>)request.getAttribute("gb");
 %>
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="utf-8">
-    <title>Venue Management</title>
+    <title>Booking Management</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -43,7 +43,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xMp9MvcqM" crossorigin="anonymous">
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <script>
@@ -56,17 +56,17 @@
                 }
             });
         });
-    </script> 
+    </script>
 </head>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
         <jsp:include page="include/spinner.jsp" />
 
         <!-- Sidebar Start -->
-        <jsp:include page="include/sidebar/sidebar-venue.jsp" />
-        
-        <!-- Sidebar End -->
+        <jsp:include page="include/sidebar/sidebar-booking.jsp" />
+
 
         <!-- Content Start -->
         <div class="content">
@@ -74,44 +74,34 @@
             <jsp:include page="include/navbar.jsp" />
             <!-- Navbar End -->
 
-
+            
             <!-- Table Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4" style="font-size: 30px;">
-                                Venue Management
-                                <a href="handleVenueDetail?action=create">
-                                    <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Add Venue</button>
-                                </a>
+                                <p style="display: inline-block;">Guest List</p>
                             </h6>
-                     
-                            <form action="handleVenueManagement" >
-                                <input class="form-control border-0" id="search" name="search" type="search" placeholder="Search" style="width:300px;display: inline;">
-                            </form>
+                            
+                        
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
+                                        <th scope="col">Guest ID</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Capacity</th>
-                                        <th scope="col">Location</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col">Emai</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <%
-                                        for(int x=0;x<venueBeans.size();x++){
-                                            venuesBean venue = venueBeans.get(x);
+                                        for(int x=0;x<gb.size();x++){
+                                            GuestBean g = gb.get(x);
+                                            
                                             out.println("<tr>");
-                                            out.println("<td>" + venue.getId() + "</td>");
-                                            out.println("<td>" + venue.getName() + "</td>");
-                                            out.println("<td>" + venue.getType() + "</td>");
-                                            out.println("<td>" + venue.getCapacity() + "</td>");
-                                            out.println("<td>" + venue.getLocation() + "</td>");
-                                            out.println("<td><a href='handleVenueDetail?action=edit&id=" + venue.getId() + "'><button type='button' class='btn btn-sm btn-primary'>Detail</button></a></td>");
+                                            out.println("<td>" + g.getId() + "</td>");
+                                            out.println("<td>" + g.getName() + "</td>");
+                                            out.println("<td>" + g.getEmail() + "</td>");
                                             out.println("</tr>");
                                         }
                                     %>
@@ -129,6 +119,7 @@
             <!-- Footer End -->
         </div>
         <!-- Content End -->
+
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

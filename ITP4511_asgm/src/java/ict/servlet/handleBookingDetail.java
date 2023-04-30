@@ -47,7 +47,6 @@ public class handleBookingDetail extends HttpServlet {
         String id = request.getParameter("id"); 
         OrderBookingBean obb = db.queryCustOrderBooking(id);
         request.setAttribute("obb", obb);
-        System.out.println("size: " + obb.getBookingList().size());
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/bookingDetail.jsp");
         rd.forward(request, response);

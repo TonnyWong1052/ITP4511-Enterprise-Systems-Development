@@ -173,8 +173,8 @@
                                 <%
                                     if (bookingbean.size() != 0) {
                                 %>
-                                <h4 style="margin-top: 20px;">Order History</h4>
-
+                                <h4 style="margin-top: 20px;display: inline-block;">Order History</h4>
+                                <span style="float:right;" >Annual attendance this year/month: <%= userBean.getYearlyAttendance() %>%/ <%= userBean.getMonthlyAttendance() %>%  </span>
                                 <table class="table text-start align-middle table-bordered table-hover mb-0" style="margin-top: 20px;">
                                     <thead>
                                         <tr class="text-dark">

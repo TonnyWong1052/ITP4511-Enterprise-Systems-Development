@@ -9,7 +9,6 @@ import ict.bean.venuesBean;
 import ict.db.VenueDB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.InputStream;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -48,6 +46,14 @@ public class handleVenueDetail extends HttpServlet {
             throws ServletException, IOException {
         RequestDispatcher rd;
         String id = request.getParameter("id"); 
+//        String action = request.getParameter("action");
+        
+        if(request.getParameter("action")!=null && request.getParameter("action").equals("delete")){
+            db.deleteRecord(id);
+            response.sendRedirect("handleVenueManagement");
+            return;
+        }
+        
         String name = request.getParameter("name");
         String type = request.getParameter("type");
         String capacity = request.getParameter("capacity");
@@ -57,6 +63,8 @@ public class handleVenueDetail extends HttpServlet {
         String hourly_rate = request.getParameter("hourly_rate");
         String active = request.getParameter("active");
         String image = request.getParameter("image");
+        
+        
         
         String processData = request.getParameter("processData");
 //        if form has been submit, encapsulate the data to java bean
@@ -80,6 +88,7 @@ public class handleVenueDetail extends HttpServlet {
             String action = request.getParameter("action");
             if(action.equals("edit")){
                 String message = "";
+                System.out.println("123");
                 //  check if the user need to edit the record
                 if(processData != null && processData.equals("create")){
     //                 create new record then return generated id
@@ -90,15 +99,14 @@ public class handleVenueDetail extends HttpServlet {
                          request.setAttribute("message", "Create data unsuccessfully");
                     }
                 }else if(processData != null && processData.equals("edit")){
-                    Part filePart = request.getPart("image");
-                    String fileName = filePart.getSubmittedFileName();
-                    InputStream fileContent = filePart.getInputStream();
-                   if(db.editRecord(veunubean, fileContent)){
+                    System.out.println("12344");
+                    String imgLoc = request.getParameter("image");  
+                   if(db.editRecord(veunubean, imgLoc)){
                         request.setAttribute("message", "Update data successfully");
                    }else{
                        request.setAttribute("message", "Update data unsuccessfully");
                    }
-
+                   
                }
 
                venuesBean venue = db.queryVenueByID(id);
@@ -124,7 +132,7 @@ public class handleVenueDetail extends HttpServlet {
            }else{
                rd = getServletContext().getRequestDispatcher("/errorPage/error.html");
            }        
-        }catch(IOException | NumberFormatException | ServletException ex){
+        }catch(Exception ex){
             ex.printStackTrace();
             rd = getServletContext().getRequestDispatcher("/errorPage/error.html");
             rd.forward(request, response);

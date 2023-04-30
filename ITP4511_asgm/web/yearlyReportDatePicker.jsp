@@ -73,20 +73,19 @@
                                 <form class="row g-3" action="handleAnalysisReport" action="POST" >
                                     <div class="col-md-12">
                                         <label for="inputEmail4" class="form-label">Venue Name</label>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option value="Banquet Hall" selected>Elegant Place</option>
-                                            <option value="Conference Room">Modern Meeting Room</option>
-                                            <option value="Party Room">Cozy Corner</option>
+                                        <select class="form-select" aria-label="Default select example" name="id" >
+                                            <option value="1" selected>Tech Hub</option>
+                                            <option value="2">Modern Meeting Room</option>
+                                            <option value="3">Cozy Corner</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-12">
                                         <label for="inputEmail4" class="form-label">Year</label>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option value="Banquet Hall" selected>2023</option>
-                                            <option value="Conference Room">2022</option>
-                                            <option value="Party Room">2021</option>
-                                            <option value="Art Studio">2020</option>
+                                        <select class="form-select" aria-label="Default select example" name="year" >
+                                            <option value="2023" selected>2023</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2021">2021</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">

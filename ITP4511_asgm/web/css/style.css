@@ -1,3 +1,10 @@
+/********** Template CSS **********/
+:root {
+    --primary: #009CFF;
+    --light: #F3F6F9;
+    --dark: #191C24;
+}
+
 .back-to-top {
     position: fixed;
     display: none;
@@ -67,6 +74,7 @@
     width: 250px;
     height: 100vh;
     overflow-y: auto;
+    background: var(--light);
     transition: 0.5s;
     z-index: 999;
 }
@@ -116,10 +124,18 @@
 /*** Navbar ***/
 .sidebar .navbar .navbar-nav .nav-link {
     padding: 7px 20px;
+    color: var(--dark);
     font-weight: 500;
     border-left: 3px solid var(--light);
     border-radius: 0 30px 30px 0;
     outline: none;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+    background: #FFFFFF;
+    border-color: var(--primary);
 }
 
 .sidebar .navbar .navbar-nav .nav-link i {
@@ -130,6 +146,11 @@
     justify-content: center;
     background: #FFFFFF;
     border-radius: 40px;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover i,
+.sidebar .navbar .navbar-nav .nav-link.active i {
+    background: var(--light);
 }
 
 .sidebar .navbar .dropdown-toggle::after {
@@ -152,6 +173,17 @@
     border-radius: 0 30px 30px 0;
 }
 
+.content .navbar .navbar-nav .nav-link {
+    margin-left: 25px;
+    padding: 12px 0;
+    color: var(--dark);
+    outline: none;
+}
+
+.content .navbar .navbar-nav .nav-link:hover,
+.content .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
 
 .content .navbar .sidebar-toggler,
 .content .navbar .navbar-nav .nav-link i {
@@ -203,6 +235,14 @@
     border-radius: 2px;
 }
 
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: var(--primary);
+}
+
+.bootstrap-datetimepicker-widget table td.today::before {
+    border-bottom-color: var(--primary);
+}
 
 
 /*** Testimonial ***/

@@ -48,10 +48,11 @@ public class handleBookingManagement extends HttpServlet {
         RequestDispatcher rd;
         String action = request.getParameter("search");
         if (!"".equals(action) && action != null) {
+            System.out.println("action: " + action );
             ArrayList<BookingBean> booking = db.queryCustByIDv2(action);
             request.setAttribute("b", booking);
-            
             rd = getServletContext().getRequestDispatcher("/bookingManagement.jsp");
+            System.out.println("length: " + booking.get(0).getId() );
             rd.forward(request, response);
         }else{
             ArrayList<BookingBean> booking = db.queryCustv2();

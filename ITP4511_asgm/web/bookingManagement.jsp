@@ -10,6 +10,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <%
+  if(session.getAttribute("Role")!= null && !session.getAttribute("Role").equals("Staff") && !session.getAttribute("Role").equals("Senior Management") ){
+      response.sendRedirect("errorPage/notEnoughPermission.html");
+  }  
+%>
+<%
     ArrayList<BookingBean> bookingbean = (ArrayList<BookingBean>)request.getAttribute("b");
 %>
 <head>
@@ -59,7 +64,7 @@
         <jsp:include page="include/spinner.jsp" />
 
         <!-- Sidebar Start -->
-        <jsp:include page="include/sidebar/sidebar-user.jsp" />
+        <jsp:include page="include/sidebar/sidebar-booking.jsp" />
 
 
         <!-- Content Start -->
@@ -68,7 +73,7 @@
             <jsp:include page="include/navbar.jsp" />
             <!-- Navbar End -->
 
-
+            
             <!-- Table Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
@@ -76,6 +81,7 @@
                         <div class="bg-light rounded h-100 p-4">
                             <h6 class="mb-4" style="font-size: 30px;">
                                 <p style="display: inline-block;">Order Management</p>
+                                
                                 <a href="exportCSV">
                                     <button type="button" class="btn btn-outline-success m-2" style="float: right;" >Export CSV</button>
                                 </a>
@@ -92,26 +98,33 @@
                                 <label class="form-check-label" for="flexCheckDefault">
                                   Pending
                                 </label>
-                            </div>
+                            </div>      
 
                             <div class="form-check" style="display: inline-block;margin-right: 10px;">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                  Waiting for Payment
-                                </label>
-                            </div>
-
-                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
                                 <label class="form-check-label" for="flexCheckDefault">
                                     Confirmed
                                 </label>
                             </div>
 
                             <div class="form-check" style="display: inline-block;margin-right: 10px;">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
                                 <label class="form-check-label" for="flexCheckDefault">
                                     Declined
+                                </label>
+                            </div>
+                            
+                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  CheckIn
+                                </label>
+                            </div>
+                            
+                            <div class="form-check" style="display: inline-block;margin-right: 10px;">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  CheckOut
                                 </label>
                             </div>
                         
@@ -141,6 +154,10 @@
                                                 status = "<span class='badge bg-secondary'>Waiting for Payment</span>";
                                             }else if(bookingStatus.equals("Declined")){
                                                 status = "<span class='badge bg-warning'>Declined</span>";
+                                            }else if(bookingStatus.equals("CheckIn")){
+                                                status = "<span class='badge bg-success'>CheckIn</span>";
+                                            }else if(bookingStatus.equals("CheckOut")){
+                                                status = "<span class='badge bg-dark'>CheckOut</span>";
                                             }
                                             
                                             out.println("<tr>");

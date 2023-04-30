@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 
 /**
  *
@@ -101,9 +102,22 @@ public class handleUserDetail extends HttpServlet {
                 request.setAttribute("message", "Update data successfully");
             }
             String id = request.getParameter("id");
+            
+            LocalDate currentDate = LocalDate.now();
+            String year = String.valueOf(currentDate.getYear());
+            String month = String.valueOf(currentDate.getMonthValue());
+//            get booking attendance for each user
+            String yearlyAttendance = db.calculateYearlyAttendance(id, year);
+            System.out.println(yearlyAttendance);
+            String monthlyAttendance = db.calculateMonthlyAttendance(id, month, year);
+            System.out.println(monthlyAttendance);
+            
             ArrayList<UserBean> user = db.queryUserByID(id);
             UserBean ue = user.get(0);
             ArrayList<BookingBean> bb = bdb.queryCustByUserIDv2(id);
+            
+            ue.setMonthlyAttendance(monthlyAttendance);
+            ue.setYearlyAttendance(yearlyAttendance);
             request.setAttribute("u", ue);
             request.setAttribute("b", bb);
             rd = getServletContext().getRequestDispatcher("/userDetail.jsp");

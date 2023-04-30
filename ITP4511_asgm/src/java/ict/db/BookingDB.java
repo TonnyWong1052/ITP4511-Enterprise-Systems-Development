@@ -14,39 +14,41 @@ import ict.bean.BookingBean;
 import ict.bean.OrderBookingBean;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 /**
  *
  * @author qwer1
  */
 public class BookingDB {
+
     private String url = "";
     private String username = "";
     private String password = "";
-    
-    public BookingDB(String url, String username, String password){
+
+    public BookingDB(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
-    
-    public Connection getConnection() throws SQLException, IOException{
+
+    public Connection getConnection() throws SQLException, IOException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        }catch (ClassNotFoundException ex){
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        
+
         return DriverManager.getConnection(url, username, password);
     }
-    
-    public int createRecord(BookingBean booking) throws IOException{
+
+    public int createRecord(BookingBean booking) throws IOException {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         int generatedId = -1;
         try {
             cnnct = getConnection();
             String preQueryStatement = "INSERT INTO bookings (user_id, venue_id, date, start_time, end_time, booking_status, payment_status, check_in_time, check_out_time, member_remarks, staff_remarks, created_at, updated_at, venue_comment, Amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            pStmnt = cnnct.prepareStatement(preQueryStatement, PreparedStatement.RETURN_GENERATED_KEYS);    
+            pStmnt = cnnct.prepareStatement(preQueryStatement, PreparedStatement.RETURN_GENERATED_KEYS);
             pStmnt.setInt(1, booking.getUserId());
             pStmnt.setInt(2, booking.getVenueId());
             pStmnt.setDate(3, booking.getDate());
@@ -85,7 +87,7 @@ public class BookingDB {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
-        try{
+        try {
             cnnct = getConnection();
             String preQueryStatement = "UPDATE bookings SET user_id = ?, venue_id = ?, date = ?, start_time = ?, end_time = ?, booking_status = ?, payment_status = ?, check_in_time = ?, check_out_time = ?, member_remarks = ?, staff_remarks = ?, updated_at = ?, venue_comment = ?, Amount = ? WHERE id = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
@@ -104,28 +106,28 @@ public class BookingDB {
             pStmnt.setString(13, booking.getVenueComment());
             pStmnt.setInt(14, booking.getAmount());
             pStmnt.setInt(15, booking.getId());
-           
-            
+
             pStmnt.executeUpdate();
-            
+
             int count = pStmnt.getUpdateCount();
             System.out.println(count);
-            if(count>0)
+            if (count > 0) {
                 isSuccess = true;
-                        
+            }
+
             pStmnt.close();
             cnnct.close();
-        }catch(SQLException ex){
-            while(ex != null){
+        } catch (SQLException ex) {
+            while (ex != null) {
                 ex = ex.getNextException();
             }
             System.out.println(ex.getMessage());
-        } catch(IOException ex){
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
         return isSuccess;
     }
-    
+
     public ArrayList<BookingBean> queryCustByID(String id) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -159,7 +161,7 @@ public class BookingDB {
                 bb.setCreatedAt(rs.getTimestamp(13));
                 bb.setUpdatedAt(rs.getTimestamp(14));
                 bb.setVenueComment(rs.getString(15));
-                bb.setAmount(rs.getInt(16));                
+                bb.setAmount(rs.getInt(16));
 
                 bbList.add(bb);
             }
@@ -176,9 +178,9 @@ public class BookingDB {
 
         return bbList;
     }
-    
+
     public ArrayList<BookingBean> queryCust() {
-         Connection cnnct = null;
+        Connection cnnct = null;
         PreparedStatement pStmnt = null;
         BookingBean bb = null;
 
@@ -209,7 +211,7 @@ public class BookingDB {
                 bb.setCreatedAt(rs.getTimestamp(13));
                 bb.setUpdatedAt(rs.getTimestamp(14));
                 bb.setVenueComment(rs.getString(15));
-                bb.setAmount(rs.getInt(16));                
+                bb.setAmount(rs.getInt(16));
                 bbList.add(bb);
             }
             pStmnt.close();
@@ -222,7 +224,7 @@ public class BookingDB {
         }
         return bbList;
     }
-    
+
     public ArrayList<BookingBean> queryCustByIDv2(String id) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -232,7 +234,7 @@ public class BookingDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT id, user_id, venue_id, date, start_time, end_time, booking_status, payment_status, check_in_time, check_out_time, member_remarks, staff_remarks, created_at, updated_at, venue_comment, Amount, COUNT(`id`) AS `total_item`, SUM(`Amount`) AS Total_Amount FROM bookings GROUP BY `id` WHERE id=?";
+            String preQueryStatement = "SELECT id, user_id, venue_id, date, start_time, end_time, booking_status, payment_status, check_in_time, check_out_time, member_remarks, staff_remarks, created_at, updated_at, venue_comment, Amount, COUNT(id) AS total_item, SUM(Amount) AS Total_Amount FROM bookings WHERE id=? GROUP BY id";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, id);
 
@@ -256,7 +258,7 @@ public class BookingDB {
                 bb.setCreatedAt(rs.getTimestamp(13));
                 bb.setUpdatedAt(rs.getTimestamp(14));
                 bb.setVenueComment(rs.getString(15));
-                bb.setAmount(rs.getInt(16));                
+                bb.setAmount(rs.getInt(16));
                 bb.setTotal_item(rs.getInt(17));
                 bb.setTotalAmount(rs.getInt(18));
                 bbList.add(bb);
@@ -274,7 +276,7 @@ public class BookingDB {
 
         return bbList;
     }
-    
+
     public ArrayList<BookingBean> queryCustv2() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -291,7 +293,7 @@ public class BookingDB {
             bbList = new ArrayList();
 
             while (rs.next()) {
-                
+
                 bb = new BookingBean();
                 bb.setId(rs.getInt(1));
                 bb.setUserId(rs.getInt(2));
@@ -308,7 +310,7 @@ public class BookingDB {
                 bb.setCreatedAt(rs.getTimestamp(13));
                 bb.setUpdatedAt(rs.getTimestamp(14));
                 bb.setVenueComment(rs.getString(15));
-                bb.setAmount(rs.getInt(16));                
+                bb.setAmount(rs.getInt(16));
                 bb.setTotal_item(rs.getInt(17));
                 bb.setTotalAmount(rs.getInt(18));
                 bbList.add(bb);
@@ -326,7 +328,7 @@ public class BookingDB {
 
         return bbList;
     }
-    
+
     public OrderBookingBean queryCustOrderBooking(String id) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -338,10 +340,10 @@ public class BookingDB {
             String preQueryStatement = "SELECT id, user_id, venue_id, date, start_time, end_time, booking_status, payment_status, check_in_time, check_out_time, member_remarks, staff_remarks, created_at, updated_at, venue_comment, Amount FROM bookings WHERE `id`=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, id);
-            
-            ResultSet rs = pStmnt.executeQuery();            
-            
-            while (rs.next()) {   
+
+            ResultSet rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
                 obb.setOrderID(rs.getInt(1));
                 obb.setUserID(rs.getInt(2));
                 bb = new BookingBean();
@@ -360,7 +362,7 @@ public class BookingDB {
                 bb.setCreatedAt(rs.getTimestamp(13));
                 bb.setUpdatedAt(rs.getTimestamp(14));
                 bb.setVenueComment(rs.getString(15));
-                bb.setAmount(rs.getInt(16));                
+                bb.setAmount(rs.getInt(16));
                 obb.addBooking(bb);
             }
             pStmnt.close();
@@ -376,7 +378,7 @@ public class BookingDB {
 
         return obb;
     }
-    
+
     public ArrayList<BookingBean> queryCustByUserIDv2(String UserId) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -410,7 +412,7 @@ public class BookingDB {
                 bb.setCreatedAt(rs.getTimestamp(13));
                 bb.setUpdatedAt(rs.getTimestamp(14));
                 bb.setVenueComment(rs.getString(15));
-                bb.setAmount(rs.getInt(16));   
+                bb.setAmount(rs.getInt(16));
                 bb.setTotal_item(rs.getInt(17));
                 bb.setTotalAmount(rs.getInt(18));
                 bbList.add(bb);
@@ -427,5 +429,35 @@ public class BookingDB {
         }
 
         return bbList;
+    }
+
+    public boolean updateBookingStatusById(int id, String newStatus) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isUpdated = false;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "UPDATE bookings SET booking_status=? WHERE id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, newStatus);
+            pStmnt.setInt(2, id);
+
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount > 0) {
+                isUpdated = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return isUpdated;
     }
 }

@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package ict.db;
+
 import ict.bean.venuesBean;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -14,48 +16,50 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.io.FileInputStream;
 /**
  *
  * @author user
  */
 public class VenueDB {
+
     private String url = "";
     private String username = "";
     private String password = "";
-    
-    public VenueDB(String url, String username, String password){
+
+    public VenueDB(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
-    
-    public Connection getConnection() throws SQLException, IOException{
+
+    public Connection getConnection() throws SQLException, IOException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        }catch (ClassNotFoundException ex){
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        
+
         return DriverManager.getConnection(url, username, password);
     }
-    
-    public ArrayList<venuesBean> queryCustByID(String id){
+
+    public ArrayList<venuesBean> queryCustByID(String id) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         venuesBean cb = null;
-        
+
         ArrayList<venuesBean> cbList = null;
-                
-        try{
+
+        try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM venues WHERE id=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, id);
-            
+
             ResultSet rs = pStmnt.executeQuery();
             cbList = new ArrayList();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 cb = new venuesBean();
                 cb.setId(rs.getInt(1));
                 cb.setName(rs.getString(2));
@@ -71,34 +75,34 @@ public class VenueDB {
             }
             pStmnt.close();
             cnnct.close();
-        }catch(SQLException ex){
-            while(ex != null){
+        } catch (SQLException ex) {
+            while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
             }
-        } catch(IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         return cbList;
     }
-    
-    public ArrayList<venuesBean> queryCust(){
+
+    public ArrayList<venuesBean> queryCust() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         venuesBean cb = null;
-        
+
         ArrayList<venuesBean> cbList = null;
-                
-        try{
+
+        try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM venues";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            
+
             ResultSet rs = pStmnt.executeQuery();
             cbList = new ArrayList();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 cb = new venuesBean();
                 cb.setId(rs.getInt(1));
                 cb.setName(rs.getString(2));
@@ -114,33 +118,33 @@ public class VenueDB {
             }
             pStmnt.close();
             cnnct.close();
-        }catch(SQLException ex){
-            while(ex != null){
+        } catch (SQLException ex) {
+            while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
             }
-        } catch(IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         return cbList;
     }
-    
-    public venuesBean queryVenueByID(String id){
+
+    public venuesBean queryVenueByID(String id) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         venuesBean cb = null;
-        try{
+        try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM venues WHERE id=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, id);
-            
+
             ResultSet rs = null;
-            
+
             rs = pStmnt.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 cb = new venuesBean();
                 cb.setId(rs.getInt(1));
                 cb.setName(rs.getString(2));
@@ -161,32 +165,32 @@ public class VenueDB {
             }
             pStmnt.close();
             cnnct.close();
-        }catch(SQLException ex){
-            while(ex != null){
+        } catch (SQLException ex) {
+            while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
             }
-        } catch(IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         return cb;
     }
-    
-    public venuesBean queryVenue(){
+
+    public venuesBean queryVenue() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         venuesBean cb = null;
-        try{
+        try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM venues";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            
+
             ResultSet rs = null;
-            
+
             rs = pStmnt.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 cb = new venuesBean();
                 cb.setId(rs.getInt(1));
                 cb.setName(rs.getString(2));
@@ -206,27 +210,30 @@ public class VenueDB {
             }
             pStmnt.close();
             cnnct.close();
-        }catch(SQLException ex){
-            while(ex != null){
+        } catch (SQLException ex) {
+            while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
             }
-        } catch(IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         return cb;
     }
-    
-        
-    public boolean editRecord(venuesBean cb, InputStream inputStreae){
+
+    public boolean editRecord(venuesBean cb, String imgLoc) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
-        try{
+        FileInputStream fis=null; 
+        File image= new File(imgLoc);
+        try {
             cnnct = getConnection();
             String preQueryStatement = "UPDATE venues SET "
                     + " id=?, name=?, type=?, capacity=?, location=?, description=?, person_in_charge=?, hourly_rate=?, is_active=?, image=? WHERE id=?";
+//            String preQueryStatement = "UPDATE venues SET "
+//                    + " id=?, name=?, type=?, capacity=?, location=?, description=?, person_in_charge=?, hourly_rate=?, is_active=? WHERE id=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, cb.getId());
             pStmnt.setString(2, cb.getName());
@@ -237,32 +244,79 @@ public class VenueDB {
             pStmnt.setString(7, cb.getPersonInCharge());
             pStmnt.setInt(8, cb.getHourlyRate());
             pStmnt.setString(9, cb.getIsActive());
-            pStmnt.setBlob(10, inputStreae);
-            
+            fis = new FileInputStream(image); 
+            pStmnt.setBinaryStream(10, (InputStream) fis, (int) (image.length())); 
+//            pStmnt.setBytes(10, cb.getImage());
+
             pStmnt.setInt(11, cb.getId());
-            
+
             pStmnt.executeUpdate();
-            
+
             int count = pStmnt.getUpdateCount();
             System.out.println(count);
-            if(count>0)
+            if (count > 0) {
                 isSuccess = true;
-                        
+            }
+
             pStmnt.close();
             cnnct.close();
-        }catch(SQLException ex){
-            while(ex != null){
+        } catch (SQLException ex) {
+            while (ex != null) {
                 ex.printStackTrace();
                 ex = ex.getNextException();
             }
             System.out.println(ex.getMessage());
-        } catch(IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
         return isSuccess;
     }
     
+    public boolean editRecord(venuesBean cb) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "UPDATE venues SET "
+                    + " id=?, name=?, type=?, capacity=?, location=?, description=?, person_in_charge=?, hourly_rate=?, is_active=? WHERE id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, cb.getId());
+            pStmnt.setString(2, cb.getName());
+            pStmnt.setString(3, cb.getType());
+            pStmnt.setInt(4, cb.getCapacity());
+            pStmnt.setString(5, cb.getLocation());
+            pStmnt.setString(6, cb.getDescription());
+            pStmnt.setString(7, cb.getPersonInCharge());
+            pStmnt.setInt(8, cb.getHourlyRate());
+            pStmnt.setString(9, cb.getIsActive());
+
+            pStmnt.setInt(10, cb.getId());
+
+            pStmnt.executeUpdate();
+
+            int count = pStmnt.getUpdateCount();
+            System.out.println(count);
+            if (count > 0) {
+                isSuccess = true;
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+        return isSuccess;
+    }
+
     public int createRecord(venuesBean cb) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -281,19 +335,18 @@ public class VenueDB {
             pStmnt.setInt(7, cb.getHourlyRate());
             pStmnt.setString(8, cb.getIsActive());
             pStmnt.setBytes(9, cb.getImage());
-            
+
             pStmnt.executeUpdate();
 
             ResultSet rs = pStmnt.getGeneratedKeys();
             if (rs.next()) {
                 generatedId = rs.getInt(1);
             }
-        
+
 //            int count = pStmnt.getUpdateCount();
 //            System.out.println(count);
 //            if (count > 0)
 //                isSuccess = true;
-
             pStmnt.close();
             cnnct.close();
         } catch (SQLException ex) {
@@ -307,5 +360,38 @@ public class VenueDB {
 //            System.out.println(ex.getMessage());
         }
         return generatedId;
+    }
+
+    public boolean deleteRecord(String id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "DELETE FROM venues WHERE id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, Integer.valueOf(id));
+
+            pStmnt.executeUpdate();
+
+            int count = pStmnt.getUpdateCount();
+            System.out.println(count);
+            if (count > 0) {
+                isSuccess = true;
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+        return isSuccess;
     }
 }

@@ -225,4 +225,111 @@ public class UserDB {
 
         return isSuccess;
     }
+    
+    public UserBean login(String email, String password) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        UserBean userBean = null;;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM `users` WHERE `email` =? AND `password` =?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, email);
+            pStmnt.setString(2, password);
+            ResultSet rs = pStmnt.executeQuery();
+ 
+            
+            while (rs.next()) {
+                userBean = new UserBean();
+                userBean.setId(rs.getInt("id"));
+                userBean.setName(rs.getString("name"));
+                userBean.setPhone(rs.getInt("Phone"));
+                userBean.setEmail(rs.getString("email"));
+                userBean.setPassword(rs.getString("password"));
+                userBean.setRole(rs.getString("role"));
+                userBean.setStatus(rs.getString("status"));
+                return userBean;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return userBean;
+    }
+    
+     public String calculateYearlyAttendance(String id, String year) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<UserBean> userList = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT user_id, COUNT(*) AS total_bookings, SUM(CASE WHEN booking_status = 'Confirmed' THEN 1 ELSE 0 END) AS confirmed_bookings, (SUM(CASE WHEN booking_status = 'Confirmed' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS attendance_rate FROM bookings WHERE user_id=? AND YEAR(date)=? GROUP BY user_id";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, id);
+            pStmnt.setString(2, year);
+            
+            
+            ResultSet rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("attendance_rate");
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return "Error";
+    }
+     
+     public String calculateMonthlyAttendance(String id, String month, String year) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<UserBean> userList = null;
+
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT user_id, COUNT(*) AS total_bookings, SUM(CASE WHEN booking_status = 'Confirmed' THEN 1 ELSE 0 END) AS confirmed_bookings, (SUM(CASE WHEN booking_status = 'Confirmed' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS attendance_rate FROM bookings WHERE user_id=? AND MONTH(date) =? AND YEAR(date)=? GROUP BY user_id";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, id);
+            pStmnt.setString(2, month);
+            pStmnt.setString(3, year);
+            
+            ResultSet rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("attendance_rate");
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return "Error";
+     }
+     
+     
 }
